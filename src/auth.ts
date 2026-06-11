@@ -21,30 +21,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        const profile = await prisma.profile.findUnique({
-          where: { email: email.toLowerCase().trim() },
-        });
+        try {
+          const profile = await prisma.profile.findUnique({
+            where: { email: email.toLowerCase().trim() },
+          });
 
-        if (!profile?.isActive || !profile.passwordHash) {
+          if (!profile?.isActive || !profile.passwordHash) {
+            return null;
+          }
+
+          const valid = await verifyPassword(password, profile.passwordHash);
+          if (!valid) {
+            return null;
+          }
+
+          await prisma.profile.update({
+            where: { id: profile.id },
+            data: { lastLoginAt: new Date() },
+          });
+
+          return {
+            id: profile.id,
+            email: profile.email,
+            name: profile.fullName,
+            role: profile.role,
+          };
+        } catch (error) {
+          console.error("Auth database error:", error);
           return null;
         }
-
-        const valid = await verifyPassword(password, profile.passwordHash);
-        if (!valid) {
-          return null;
-        }
-
-        await prisma.profile.update({
-          where: { id: profile.id },
-          data: { lastLoginAt: new Date() },
-        });
-
-        return {
-          id: profile.id,
-          email: profile.email,
-          name: profile.fullName,
-          role: profile.role,
-        };
       },
     }),
   ],

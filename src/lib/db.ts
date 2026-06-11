@@ -1,6 +1,5 @@
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { PrismaClient } from "@/generated/prisma/client";
 
 const globalForPrisma = globalThis as unknown as {
@@ -15,28 +14,37 @@ function isPostgresUrl(connectionString: string): boolean {
 }
 
 function createPrismaClient(): PrismaClient {
-  const connectionString =
-    process.env.DATABASE_URL ?? "file:./dev.db";
+  const connectionString = process.env.DATABASE_URL;
+
+  if (!connectionString || !isPostgresUrl(connectionString)) {
+    throw new Error(
+      "DATABASE_URL must be a PostgreSQL connection string (Neon, Supabase, or local Docker).",
+    );
+  }
 
   const log =
     process.env.NODE_ENV === "development"
       ? (["query", "error", "warn"] as const)
       : (["error"] as const);
 
-  if (isPostgresUrl(connectionString)) {
-    const pool = new Pool({ connectionString });
-    const adapter = new PrismaPg(pool);
-    return new PrismaClient({ adapter, log: [...log] });
-  }
-
-  const adapter = new PrismaBetterSqlite3({ url: connectionString });
+  const pool = new Pool({ connectionString });
+  const adapter = new PrismaPg(pool);
   return new PrismaClient({ adapter, log: [...log] });
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+function getPrismaClient(): PrismaClient {
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = createPrismaClient();
+  }
+  return globalForPrisma.prisma;
 }
+
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_target, property, receiver) {
+    const client = getPrismaClient();
+    const value = Reflect.get(client, property, receiver);
+    return typeof value === "function" ? value.bind(client) : value;
+  },
+});
 
 export default prisma;

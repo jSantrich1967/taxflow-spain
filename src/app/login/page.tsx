@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { loginAction } from "@/app/actions/auth";
+import { LoginForm } from "@/components/auth/LoginForm";
 import { isAuthDisabled } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 
@@ -14,6 +14,7 @@ export default async function LoginPage({
 
   const params = await searchParams;
   const callbackUrl = params.callbackUrl ?? "/dashboard";
+  const errorCode = params.error?.toLowerCase();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
@@ -25,65 +26,20 @@ export default async function LoginPage({
           </p>
         </div>
 
-        <form
-          action={async (formData) => {
-            "use server";
-            formData.set("callbackUrl", callbackUrl);
-            await loginAction(formData);
-          }}
-          className="space-y-4"
-        >
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-[var(--navy)] focus:outline-none focus:ring-1 focus:ring-[var(--navy)]"
-              placeholder="analyst@taxflow.local"
-            />
-          </div>
+        <LoginForm callbackUrl={callbackUrl} errorCode={errorCode} />
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-[var(--navy)] focus:outline-none focus:ring-1 focus:ring-[var(--navy)]"
-            />
-          </div>
-
-          {params.error && (
-            <p className="text-sm text-red-600" role="alert">
-              Invalid email or password
-            </p>
-          )}
-
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-[var(--navy)] px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
-          >
-            Sign in
-          </button>
-        </form>
-
-        <p className="mt-6 text-center text-xs text-slate-500">
-          Demo users are created via{" "}
-          <code className="rounded bg-slate-100 px-1">npm run db:seed</code>
-        </p>
+        <div className="mt-6 rounded-lg bg-slate-50 p-3 text-xs text-slate-600 space-y-1">
+          <p className="font-medium text-slate-700">Demo credentials</p>
+          <p>admin@taxflow.local / Admin123!</p>
+          <p className="text-slate-500">
+            Requires <code className="rounded bg-slate-100 px-1">npm run db:seed</code> on
+            production database
+          </p>
+        </div>
 
         <p className="mt-4 text-center text-xs text-slate-400">
-          <Link href="/api/health" className="underline">
-            System health
+          <Link href="/api/health" className="underline" target="_blank">
+            System health check
           </Link>
         </p>
       </div>
