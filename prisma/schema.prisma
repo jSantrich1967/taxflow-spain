@@ -1,0 +1,477 @@
+// TaxFlow Spain — Prisma schema
+// Designed for SQLite (MVP) with PostgreSQL/Supabase migration path
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  ANALYST
+  SUPERVISOR
+  ADMIN
+}
+
+enum CaseStatus {
+  NEW_CLIENT
+  INTAKE_RECEIVED
+  AI_EXTRACTION_PENDING
+  AI_EXTRACTION_COMPLETED
+  WAITING_FOR_CLIENT_INFORMATION
+  DOCUMENTS_PENDING
+  DOCUMENTS_UPLOADED
+  ANALYST_REVIEW
+  MISSING_INFORMATION_REQUESTED
+  MODELO_030_REQUIRED
+  MODELO_030_DRAFT_READY
+  MODELO_030_APPROVED
+  MODELO_030_SUBMITTED
+  WAITING_FOR_TAX_AUTHORITY_RESPONSE
+  NIF_M_RECEIVED
+  MODELO_036_ACTIVE
+  MODELO_036_DRAFT_READY
+  MODELO_036_APPROVED
+  VAT_ROI_REVIEW
+  VAT_ROI_SUBMITTED
+  COMPLETED
+  ON_HOLD
+  REJECTED
+}
+
+enum DocumentStatus {
+  PENDING
+  UPLOADED
+  AI_PROCESSED
+  NEEDS_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+  NOT_APPLICABLE
+}
+
+enum ChecklistStatus {
+  PENDING
+  UPLOADED
+  AI_PROCESSED
+  NEEDS_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+  NOT_APPLICABLE
+}
+
+enum DraftStatus {
+  DRAFT
+  READY_FOR_REVIEW
+  APPROVED
+  SUBMITTED
+}
+
+enum HumanReviewStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  REQUIRES_SUPERVISOR
+}
+
+enum ApprovalType {
+  FIELD
+  DOCUMENT
+  MODELO_030_DRAFT
+  MODELO_036_DRAFT
+  CASE
+  SUBMISSION
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AuditAction {
+  CASE_CREATED
+  EMAIL_INGESTED
+  CRM_RECORD_INGESTED
+  DOCUMENT_UPLOADED
+  AI_EXTRACTION_STARTED
+  AI_EXTRACTION_COMPLETED
+  AI_EXTRACTION_FAILED
+  FIELD_AUTOFILLED
+  FIELD_CORRECTED
+  FIELD_APPROVED
+  FIELD_REJECTED
+  CASE_CLASSIFIED
+  CHECKLIST_GENERATED
+  CHECKLIST_ITEM_UPDATED
+  STATUS_CHANGED
+  NIF_M_MARKED_RECEIVED
+  MODELO_030_DRAFT_GENERATED
+  MODELO_036_DRAFT_GENERATED
+  REVIEW_PACK_GENERATED
+  HUMAN_APPROVAL_COMPLETED
+  AEAT_PREPARATION_COMPLETED
+  RECEIPT_UPLOADED
+  CASE_COMPLETED
+}
+
+enum AiInputType {
+  EMAIL
+  CRM
+  DOCUMENT
+  MANUAL
+  WEBHOOK
+}
+
+enum SourceType {
+  EMAIL
+  CRM
+  DOCUMENT
+  MANUAL
+  AI_INFERENCE
+}
+
+enum EntityType {
+  CASE
+  DIRECTOR
+  COMPANY
+  REPRESENTATIVE
+  MODELO_030
+  MODELO_036
+}
+
+enum SubmissionType {
+  MODELO_030
+  MODELO_036
+  VAT
+  ROI_VIES
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model Profile {
+  id           String   @id @default(cuid())
+  fullName     String
+  email        String   @unique
+  passwordHash String?
+  role         UserRole @default(ANALYST)
+  isActive     Boolean  @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Case {
+  id                 String     @id @default(cuid())
+  caseNumber         String     @unique
+  contactName        String?
+  contactEmail       String?
+  contactPhone       String?
+  companyName        String?
+  companyCountry     String?
+  assignedAnalyst    String?
+  status             CaseStatus @default(NEW_CLIENT)
+  requiresModelo030  Boolean    @default(false)
+  requiresModelo036  Boolean    @default(false)
+  vatReviewRequired  Boolean    @default(false)
+  roiReviewRequired  Boolean    @default(false)
+  modelo036Locked    Boolean    @default(false)
+  nifMReceived       Boolean    @default(false)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  director            Director?
+  company             Company?
+  representative      Representative?
+  documents           Document[]
+  extractedFields     ExtractedField[]
+  modelo030Drafts     Modelo030Draft[]
+  modelo036Drafts     Modelo036Draft[]
+  checklistItems      ChecklistItem[]
+  internalNotes       InternalNote[]
+  approvals           Approval[]
+  auditLogs           AuditLog[]
+  aiRuns              AiRun[]
+  emailIngestionLogs  EmailIngestionLog[]
+  crmIngestionLogs    CrmIngestionLog[]
+  submissionEvidence  SubmissionEvidence[]
+}
+
+model Director {
+  id                   String    @id @default(cuid())
+  caseId               String    @unique
+  case                 Case      @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  fullName             String?
+  firstName            String?
+  lastName1            String?
+  lastName2            String?
+  nationality          String?
+  passportNumber       String?
+  passportExpiryDate   String?
+  dateOfBirth          String?
+  placeOfBirthCity     String?
+  placeOfBirthProvince String?
+  placeOfBirthCountry  String?
+  foreignTaxId         String?
+  address              String?
+  city                 String?
+  provinceRegionState  String?
+  postalCode           String?
+  country              String?
+  countryCode          String?
+  hasSpanishDni        Boolean   @default(false)
+  hasSpanishNie        Boolean   @default(false)
+  hasSpanishNif        Boolean   @default(false)
+  nifMNumber           String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}
+
+model Company {
+  id                         String   @id @default(cuid())
+  caseId                     String   @unique
+  case                       Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  legalName                  String?
+  tradingName                String?
+  countryOfIncorporation     String?
+  countryCode                String?
+  registrationNumber         String?
+  foreignTaxId               String?
+  vatNumber                  String?
+  registeredAddress          String?
+  city                       String?
+  provinceRegionState        String?
+  postalCode                 String?
+  businessActivity           String?
+  website                    String?
+  marketplaceUsed            String?
+  sellsInSpain               Boolean  @default(false)
+  sellsInEu                  Boolean  @default(false)
+  usesAmazonFba              Boolean  @default(false)
+  storesInventoryInSpain     Boolean  @default(false)
+  performsIntracommunityB2b  Boolean  @default(false)
+  alreadyHasSpanishNif       Boolean  @default(false)
+  alreadyHasVatNumber        Boolean  @default(false)
+  needsRoiVies               String   @default("unknown")
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+}
+
+model Representative {
+  id                          String   @id @default(cuid())
+  caseId                      String   @unique
+  case                        Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  fullNameOrCompanyName       String?
+  nif                         String?
+  residentInSpain             Boolean?
+  representationType          String?
+  representationTitle         String?
+  powerOfAttorneyPresent      Boolean  @default(false)
+  authorizationScopeSummary   String?
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+}
+
+model Document {
+  id                 String         @id @default(cuid())
+  caseId             String
+  case               Case           @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  documentType       String?
+  documentName       String?
+  originalFileName   String
+  filePath           String
+  externalUrl        String?
+  status             DocumentStatus @default(PENDING)
+  comments           String?
+  uploadedBy         String?
+  uploadedAt         DateTime       @default(now())
+  aiProcessed        Boolean        @default(false)
+  aiConfidenceScore  Float?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@index([caseId])
+}
+
+model ExtractedField {
+  id                    String     @id @default(cuid())
+  caseId                String
+  case                  Case       @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  entityType            EntityType @default(CASE)
+  fieldKey              String
+  fieldLabel            String
+  value                 String?
+  sourceType            SourceType @default(AI_INFERENCE)
+  sourceFileName        String?
+  sourceExcerpt         String?
+  confidenceScore       Float      @default(0)
+  requiresHumanReview   Boolean    @default(true)
+  analystCorrectedValue String?
+  analystApproved       Boolean    @default(false)
+  approvedBy            String?
+  approvedAt            DateTime?
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+
+  @@index([caseId])
+  @@index([fieldKey])
+}
+
+model Modelo030Draft {
+  id                   String            @id @default(cuid())
+  caseId               String
+  case                 Case              @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  draftJson            Json
+  status               DraftStatus       @default(DRAFT)
+  warningsJson         Json              @default("[]")
+  missingFieldsJson    Json              @default("[]")
+  sourceReferencesJson Json              @default("[]")
+  humanReviewStatus    HumanReviewStatus @default(NOT_STARTED)
+  generatedAt          DateTime          @default(now())
+  approvedAt           DateTime?
+  approvedBy           String?
+
+  @@index([caseId])
+}
+
+model Modelo036Draft {
+  id                   String            @id @default(cuid())
+  caseId               String
+  case                 Case              @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  draftJson            Json
+  status               DraftStatus       @default(DRAFT)
+  warningsJson         Json              @default("[]")
+  missingFieldsJson    Json              @default("[]")
+  sourceReferencesJson Json              @default("[]")
+  humanReviewStatus    HumanReviewStatus @default(NOT_STARTED)
+  generatedAt          DateTime          @default(now())
+  approvedAt           DateTime?
+  approvedBy           String?
+
+  @@index([caseId])
+}
+
+model ChecklistItem {
+  id           String          @id @default(cuid())
+  caseId       String
+  case         Case            @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  documentName String
+  category     String
+  required     Boolean         @default(true)
+  status       ChecklistStatus @default(PENDING)
+  notes        String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([caseId])
+}
+
+model InternalNote {
+  id            String   @id @default(cuid())
+  caseId        String
+  case          Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  note          String
+  createdByName String?
+  createdAt     DateTime @default(now())
+
+  @@index([caseId])
+}
+
+model Approval {
+  id           String         @id @default(cuid())
+  caseId       String
+  case         Case           @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  approvalType ApprovalType
+  approvedBy   String?
+  status       ApprovalStatus @default(PENDING)
+  notes        String?
+  createdAt    DateTime       @default(now())
+
+  @@index([caseId])
+}
+
+model AuditLog {
+  id            String      @id @default(cuid())
+  caseId        String
+  case          Case        @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  userId        String?
+  userName      String?
+  action        AuditAction
+  previousValue String?
+  newValue      String?
+  metadata      Json?
+  createdAt     DateTime    @default(now())
+
+  @@index([caseId])
+  @@index([action])
+}
+
+model AiRun {
+  id                       String      @id @default(cuid())
+  caseId                   String
+  case                     Case        @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  inputType                AiInputType
+  inputSummary             String?
+  modelUsed                String?
+  promptVersion            String      @default("1.0.0")
+  structuredOutput         Json?
+  confidenceScore          Float?
+  warnings                 Json        @default("[]")
+  missingInformation       Json        @default("[]")
+  inconsistencies          Json        @default("[]")
+  processingTimeMs         Int?
+  reviewedByHuman          Boolean     @default(false)
+  humanCorrectionsSummary  String?
+  createdAt                DateTime    @default(now())
+
+  @@index([caseId])
+}
+
+model EmailIngestionLog {
+  id               String   @id @default(cuid())
+  caseId           String
+  case             Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  fromEmail        String?
+  subject          String?
+  receivedAt       DateTime?
+  bodySummary      String?
+  attachmentsCount Int      @default(0)
+  processed        Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  @@index([caseId])
+}
+
+model CrmIngestionLog {
+  id               String   @id @default(cuid())
+  caseId           String
+  case             Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  crmName          String?
+  externalRecordId String?
+  payloadJson      Json?
+  processed        Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  @@index([caseId])
+}
+
+model SubmissionEvidence {
+  id              String         @id @default(cuid())
+  caseId          String
+  case            Case           @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  submissionType  SubmissionType
+  receiptFilePath String?
+  receiptNumber   String?
+  submittedBy     String?
+  submittedAt     DateTime?
+  notes           String?
+  createdAt       DateTime       @default(now())
+
+  @@index([caseId])
+}
