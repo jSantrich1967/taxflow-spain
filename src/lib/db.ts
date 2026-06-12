@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
+import { resolveDatabaseUrl } from "@/lib/databaseUrl";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
@@ -14,11 +15,11 @@ function isPostgresUrl(connectionString: string): boolean {
 }
 
 function createPrismaClient(): PrismaClient {
-  const connectionString = process.env.DATABASE_URL;
+  const { url: connectionString } = resolveDatabaseUrl();
 
-  if (!connectionString || !isPostgresUrl(connectionString)) {
+  if (!connectionString) {
     throw new Error(
-      "DATABASE_URL must be a PostgreSQL connection string (Neon, Supabase, or local Docker).",
+      "Set DATABASE_URL (or POSTGRES_PRISMA_URL / POSTGRES_URL) to a PostgreSQL connection string.",
     );
   }
 
