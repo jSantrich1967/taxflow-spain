@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: "/cases", label: "Cases", icon: "📁" },
   { href: "/cases/new", label: "New Case", icon: "➕" },
   { href: "/cases?filter=review", label: "Review Queue", icon: "🔍" },
+  { href: "/integrations", label: "Integrations", icon: "🔗" },
   { href: "/settings", label: "Settings", icon: "⚙️" },
 ];
 

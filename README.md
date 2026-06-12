@@ -76,6 +76,11 @@ To skip login during local development, set `AUTH_DISABLED=true` in `.env`.
 | `UPLOAD_DIR` | Local upload directory, default `./uploads` |
 | `MAX_UPLOAD_SIZE_MB` | Max upload size in MB |
 | `WEBHOOK_SECRET` | Secret for `/api/webhooks/ingest` |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Gmail OAuth (admin `/integrations`) |
+| `HUBSPOT_ACCESS_TOKEN` | HubSpot Private App token (optional if saved in DB) |
+| `CRON_SECRET` | Bearer token for `/api/cron/sync-integrations` |
+| `GMAIL_SYNC_QUERY` | Gmail search query (default `is:unread newer_than:7d`) |
+| `AUTO_EXTRACT_ON_INGEST` | Run AI after ingest (`true` unless set to `false`) |
 | `DATA_RETENTION_DAYS` | GDPR retention window (default 2555 days) |
 
 ---
@@ -150,6 +155,17 @@ taxflow-spain/
 
 ### Phase 5 — Integrations & AEAT Preparation
 
+#### Automatic Gmail + HubSpot (recommended)
+
+1. Sign in as **admin** and open **Integrations** (`/integrations`)
+2. **Gmail:** click **Connect Gmail** — OAuth redirect URI in Google Cloud Console:
+   `https://your-app.vercel.app/api/integrations/gmail/callback`
+3. **HubSpot:** create a Private App token and save it on the Integrations page (or set `HUBSPOT_ACCESS_TOKEN` in env)
+4. Set `CRON_SECRET` on Vercel — cron runs every 15 minutes (`vercel.json`) and pulls new emails/contacts
+5. Use **Sync now** for immediate pull; the system creates/updates cases and runs AI extraction automatically
+
+#### Manual intake (fallback)
+
 1. Open **AI Intake** on an existing case to paste email or import CRM JSON
 2. Optionally check **Run AI extraction** to process new data immediately
 3. Use **POST /api/webhooks/ingest** for external CRM/automation integrations
@@ -213,6 +229,9 @@ curl -X POST http://localhost:3000/api/webhooks/ingest \
 | `emailIngestionService` | Ingest email into existing cases |
 | `crmIngestionService` | Import CRM JSON records |
 | `webhookIngestionService` | Generic webhook case creation/update |
+| `gmailSyncService` | Pull unread Gmail → cases + AI extraction |
+| `hubspotSyncService` | Pull HubSpot contacts → cases + AI extraction |
+| `integrationSyncService` | Run Gmail + HubSpot sync (cron / manual) |
 | `aeatPreparationService` | Readiness checks + submission evidence |
 | `gdprService` | GDPR export, anonymization, retention review |
 | `userService` | Profile listing and user creation |

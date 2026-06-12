@@ -37,7 +37,9 @@ export const authConfig = {
       if (
         pathname.startsWith("/api/auth") ||
         pathname.startsWith("/api/webhooks") ||
-        pathname.startsWith("/api/health")
+        pathname.startsWith("/api/health") ||
+        pathname.startsWith("/api/cron") ||
+        pathname === "/api/integrations/gmail/callback"
       ) {
         return true;
       }
@@ -53,7 +55,11 @@ export const authConfig = {
         return Response.redirect(new URL("/dashboard", request.nextUrl));
       }
 
-      if (pathname.startsWith("/settings") && auth?.user?.role !== "ADMIN") {
+      if (
+        (pathname.startsWith("/settings") ||
+          pathname.startsWith("/integrations")) &&
+        auth?.user?.role !== "ADMIN"
+      ) {
         return Response.redirect(new URL("/dashboard", request.nextUrl));
       }
 

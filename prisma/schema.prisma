@@ -153,6 +153,11 @@ enum SubmissionType {
   ROI_VIES
 }
 
+enum IntegrationProvider {
+  GMAIL
+  HUBSPOT
+}
+
 // ─── Models ──────────────────────────────────────────────────────────────────
 
 model Profile {
@@ -473,5 +478,31 @@ model SubmissionEvidence {
   notes           String?
   createdAt       DateTime       @default(now())
 
+  @@index([caseId])
+}
+
+model IntegrationAccount {
+  id            String              @id @default(cuid())
+  provider      IntegrationProvider @unique
+  label         String?
+  accessToken   String?
+  refreshToken  String?
+  expiresAt     DateTime?
+  metadataJson  Json?
+  isActive      Boolean             @default(true)
+  lastSyncAt    DateTime?
+  lastSyncError String?
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+}
+
+model ExternalIngestionRecord {
+  id          String   @id @default(cuid())
+  provider    String
+  externalId  String
+  caseId      String?
+  createdAt   DateTime @default(now())
+
+  @@unique([provider, externalId])
   @@index([caseId])
 }

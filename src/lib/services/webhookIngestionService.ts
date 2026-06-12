@@ -1,9 +1,14 @@
 import prisma from "@/lib/db";
+import { runIntakeExtraction } from "@/lib/services/aiIntakeService";
 import { logAuditEvent } from "@/lib/services/auditService";
 import { createCase } from "@/lib/services/caseService";
 import { ingestEmail } from "@/lib/services/emailIngestionService";
 import { ingestCrmRecord } from "@/lib/services/crmIngestionService";
 import { CaseStatus, Prisma } from "@/generated/prisma/client";
+
+function shouldAutoExtract(): boolean {
+  return process.env.AUTO_EXTRACT_ON_INGEST !== "false";
+}
 
 export type WebhookSource = "generic" | "hubspot" | "salesforce" | "zoho" | "email" | "crm";
 
@@ -158,6 +163,18 @@ export async function processWebhookIngestion(
     where: { id: caseId },
     data: { status: CaseStatus.INTAKE_RECEIVED },
   });
+
+  if (shouldAutoExtract() && actions.length > 0) {
+    const extraction = await runIntakeExtraction({
+      caseId,
+      userName: "Webhook",
+    });
+    if (extraction.success) {
+      actions.push("ai_extraction_completed");
+    } else if (extraction.error) {
+      actions.push(`ai_extraction_failed:${extraction.error}`);
+    }
+  }
 
   return {
     success: true,
