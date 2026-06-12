@@ -31,7 +31,7 @@ export function DraftFieldEditor({
       ? ""
       : typeof field.value === "boolean"
         ? field.value
-          ? "Yes"
+          ? "Sí"
           : "No"
         : String(field.value);
 
@@ -44,7 +44,7 @@ export function DraftFieldEditor({
   function handleSave() {
     startTransition(async () => {
       const result = await updateAction(caseId, draftId, fieldKey, editValue);
-      setMessage(result.success ? "Saved" : result.error ?? "Error");
+      setMessage(result.success ? "Guardado" : result.error ?? "Error");
       setTimeout(() => setMessage(null), 2000);
     });
   }
@@ -70,7 +70,7 @@ export function DraftFieldEditor({
           )}
           {isMissing && (
             <span className="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
-              Missing
+              Faltante
             </span>
           )}
         </div>
@@ -94,14 +94,14 @@ export function DraftFieldEditor({
               disabled={isPending}
               className="mt-2 rounded-md bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-200 disabled:opacity-50"
             >
-              Save field
+              Guardar campo
             </button>
           )}
         </>
       )}
 
       {field.sourceReference && (
-        <p className="mt-2 text-xs text-slate-400">Source: {field.sourceReference}</p>
+        <p className="mt-2 text-xs text-slate-400">Fuente: {field.sourceReference}</p>
       )}
       {message && <p className="mt-1 text-xs text-green-600">{message}</p>}
     </div>

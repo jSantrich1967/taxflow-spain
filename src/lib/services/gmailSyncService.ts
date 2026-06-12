@@ -64,7 +64,7 @@ function extractEmailBody(payload: {
 async function getAuthorizedGmailClient() {
   const account = await getIntegrationAccount("GMAIL");
   if (!account?.refreshToken || !account.isActive) {
-    throw new Error("Gmail is not connected");
+    throw new Error("Gmail no está conectado");
   }
 
   const oauth2 = getGoogleOAuthClient();
@@ -143,7 +143,7 @@ export async function syncGmailInbox(): Promise<GmailSyncResult> {
           caseRecord = await createCase({
             contactEmail: fromEmail,
             contactName: fromHeader?.replace(/<[^>]+>/, "").trim() || undefined,
-            manualNotes: `Auto-created from Gmail message ${externalId}`,
+            manualNotes: `Creado automáticamente desde el mensaje de Gmail ${externalId}`,
           });
           result.createdCases += 1;
         }
@@ -163,7 +163,7 @@ export async function syncGmailInbox(): Promise<GmailSyncResult> {
           });
           if (!extraction.success) {
             result.errors.push(
-              `Message ${externalId}: extraction failed — ${extraction.error}`,
+              `Mensaje ${externalId}: la extracción falló — ${extraction.error}`,
             );
           }
         }
@@ -172,7 +172,7 @@ export async function syncGmailInbox(): Promise<GmailSyncResult> {
         result.processed += 1;
       } catch (error) {
         result.errors.push(
-          `Message ${externalId}: ${error instanceof Error ? error.message : "unknown error"}`,
+          `Mensaje ${externalId}: ${error instanceof Error ? error.message : "error desconocido"}`,
         );
       }
     }
@@ -182,7 +182,7 @@ export async function syncGmailInbox(): Promise<GmailSyncResult> {
       lastSyncError: result.errors[0] ?? null,
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Gmail sync failed";
+    const message = error instanceof Error ? error.message : "La sincronización de Gmail falló";
     await upsertIntegrationAccount("GMAIL", {
       lastSyncError: message,
     });

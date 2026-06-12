@@ -17,18 +17,18 @@ export default async function CasesPage({ searchParams }: CasesPageProps) {
   return (
     <div>
       <PageHeader
-        title={isReviewFilter ? "Review Queue" : "Cases"}
+        title={isReviewFilter ? "Cola de revisión" : "Casos"}
         description={
           isReviewFilter
-            ? "Cases awaiting analyst review"
-            : "All tax workflow cases"
+            ? "Casos pendientes de revisión por un analista"
+            : "Todos los casos del flujo fiscal"
         }
         actions={
           <Link
             href="/cases/new"
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
-            + New Case
+            + Nuevo caso
           </Link>
         }
       />
@@ -37,23 +37,23 @@ export default async function CasesPage({ searchParams }: CasesPageProps) {
         <table className="w-full text-sm">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">Case #</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">Contact</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">Company</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">Status</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">Flags</th>
+              <th className="px-4 py-3 text-left font-medium text-slate-600">Caso #</th>
+              <th className="px-4 py-3 text-left font-medium text-slate-600">Contacto</th>
+              <th className="px-4 py-3 text-left font-medium text-slate-600">Empresa</th>
+              <th className="px-4 py-3 text-left font-medium text-slate-600">Estado</th>
+              <th className="px-4 py-3 text-left font-medium text-slate-600">Marcas</th>
               <th className="px-4 py-3 text-left font-medium text-slate-600">Docs</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">Fields</th>
-              <th className="px-4 py-3 text-left font-medium text-slate-600">Created</th>
+              <th className="px-4 py-3 text-left font-medium text-slate-600">Campos</th>
+              <th className="px-4 py-3 text-left font-medium text-slate-600">Creado</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {cases.length === 0 ? (
               <tr>
                 <td colSpan={8} className="px-4 py-8 text-center text-slate-500">
-                  No cases found.{" "}
+                  No se encontraron casos.{" "}
                   <Link href="/cases/new" className="text-blue-600 hover:underline">
-                    Create one
+                    Crear uno
                   </Link>
                 </td>
               </tr>
@@ -92,12 +92,12 @@ export default async function CasesPage({ searchParams }: CasesPageProps) {
                       )}
                       {c.vatReviewRequired && (
                         <span className="rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-700">
-                          VAT
+                          IVA
                         </span>
                       )}
                       {c.modelo036Locked && (
                         <span className="rounded bg-red-100 px-1.5 py-0.5 text-xs text-red-700">
-                          036 locked
+                          036 bloqueado
                         </span>
                       )}
                     </div>

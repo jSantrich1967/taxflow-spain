@@ -15,8 +15,8 @@ export default async function IntegrationsPage({
   return (
     <div>
       <PageHeader
-        title="Integrations"
-        description="Connect Gmail and HubSpot — the system pulls data automatically and runs AI extraction"
+        title="Integraciones"
+        description="Conecta Gmail y HubSpot: el sistema trae los datos automáticamente y ejecuta la extracción con IA"
       />
       <IntegrationsPanel
         status={{

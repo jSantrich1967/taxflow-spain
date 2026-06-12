@@ -30,7 +30,7 @@ export function GenerateDraftButton({
     startTransition(async () => {
       const result = await generateAction(caseId);
       if (!result.success) {
-        setError(result.error ?? "Failed to generate draft");
+        setError(result.error ?? "No se pudo generar el borrador");
         return;
       }
       router.refresh();
@@ -46,7 +46,7 @@ export function GenerateDraftButton({
         title={disabledReason}
         className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {isPending ? "Generating…" : `Generate Modelo ${draftType} Draft`}
+        {isPending ? "Generando..." : `Generar borrador Modelo ${draftType}`}
       </button>
       {disabled && disabledReason && (
         <p className="mt-1 text-xs text-slate-500">{disabledReason}</p>

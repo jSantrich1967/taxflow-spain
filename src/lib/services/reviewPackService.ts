@@ -14,12 +14,12 @@ import {
 import { ApprovalType, DraftStatus } from "@/generated/prisma/client";
 
 const DISCLAIMER =
-  "INTERNAL REVIEW PACK ONLY — Not an official AEAT submission. " +
-  "Prepared for analyst and supervisor review. All data requires human verification.";
+  "SOLO PAQUETE INTERNO DE REVISIÓN: no es un envío oficial a AEAT. " +
+  "Preparado para revisión de analista y supervisor. Todos los datos requieren verificación humana.";
 
 function formatValue(value: string | boolean | null | undefined): string {
   if (value === null || value === undefined) return "—";
-  if (typeof value === "boolean") return value ? "Yes" : "No";
+  if (typeof value === "boolean") return value ? "Sí" : "No";
   return value.trim() || "—";
 }
 
@@ -114,36 +114,36 @@ export async function buildModelo030ReviewPack(
     generatedAt: new Date().toISOString(),
     caseStatus: caseRecord.status,
     contact: [
-      fieldRow("Contact Name", caseRecord.contactName),
-      fieldRow("Contact Email", caseRecord.contactEmail),
-      fieldRow("Contact Phone", caseRecord.contactPhone),
-      fieldRow("Company", caseRecord.companyName),
-      fieldRow("Country", caseRecord.companyCountry),
+      fieldRow("Nombre del contacto", caseRecord.contactName),
+      fieldRow("Email del contacto", caseRecord.contactEmail),
+      fieldRow("Teléfono del contacto", caseRecord.contactPhone),
+      fieldRow("Empresa", caseRecord.companyName),
+      fieldRow("País", caseRecord.companyCountry),
     ],
     director: director
       ? [
-          fieldRow("Full Name", director.fullName),
-          fieldRow("First Name", director.firstName),
-          fieldRow("First Surname", director.lastName1),
-          fieldRow("Second Surname", director.lastName2),
-          fieldRow("Nationality", director.nationality),
-          fieldRow("Date of Birth", director.dateOfBirth),
-          fieldRow("Place of Birth", [
+          fieldRow("Nombre completo", director.fullName),
+          fieldRow("Nombre", director.firstName),
+          fieldRow("Primer apellido", director.lastName1),
+          fieldRow("Segundo apellido", director.lastName2),
+          fieldRow("Nacionalidad", director.nationality),
+          fieldRow("Fecha de nacimiento", director.dateOfBirth),
+          fieldRow("Lugar de nacimiento", [
             director.placeOfBirthCity,
             director.placeOfBirthCountry,
           ]
             .filter(Boolean)
             .join(", ")),
-          fieldRow("Foreign Tax ID", director.foreignTaxId),
-          fieldRow("Address", director.address),
-          fieldRow("City", director.city),
-          fieldRow("Country", director.country),
+          fieldRow("ID fiscal extranjero", director.foreignTaxId),
+          fieldRow("Dirección", director.address),
+          fieldRow("Ciudad", director.city),
+          fieldRow("País", director.country),
         ]
       : [],
     passport: director
       ? [
-          fieldRow("Passport Number", director.passportNumber),
-          fieldRow("Passport Expiry", director.passportExpiryDate),
+          fieldRow("Número de pasaporte", director.passportNumber),
+          fieldRow("Vencimiento del pasaporte", director.passportExpiryDate),
         ]
       : [],
     idStatus: {
@@ -154,8 +154,8 @@ export async function buildModelo030ReviewPack(
       nifMNumber: director?.nifMNumber ?? null,
     },
     reasonForModelo030: caseRecord.requiresModelo030
-      ? "Foreign director without Spanish DNI/NIE/NIF — NIF M (Modelo 030) required before company registration."
-      : "Not classified as Modelo 030 required — verify classification.",
+      ? "Director extranjero sin DNI/NIE/NIF español: se requiere NIF M (Modelo 030) antes del registro de empresa."
+      : "No clasificado como Modelo 030 requerido: verifica la clasificación.",
     extractedFields,
     draftFields: draftToFieldRows(draft, draft?.missingFields ?? []),
     checklist: caseRecord.checklistItems.map((item) => ({
@@ -257,38 +257,38 @@ export async function buildModelo036ReviewPack(
     caseStatus: caseRecord.status,
     company: company
       ? [
-          fieldRow("Legal Name", company.legalName),
-          fieldRow("Trading Name", company.tradingName),
-          fieldRow("Country of Incorporation", company.countryOfIncorporation),
-          fieldRow("Registration Number", company.registrationNumber),
-          fieldRow("Foreign Tax ID", company.foreignTaxId),
-          fieldRow("VAT Number", company.vatNumber),
-          fieldRow("Registered Address", company.registeredAddress),
-          fieldRow("Business Activity", company.businessActivity),
-          fieldRow("Website", company.website),
-          fieldRow("Sells in Spain", company.sellsInSpain),
-          fieldRow("Uses Amazon FBA", company.usesAmazonFba),
-          fieldRow("Intra-community B2B", company.performsIntracommunityB2b),
+          fieldRow("Nombre legal", company.legalName),
+          fieldRow("Nombre comercial", company.tradingName),
+          fieldRow("País de constitución", company.countryOfIncorporation),
+          fieldRow("Número de registro", company.registrationNumber),
+          fieldRow("ID fiscal extranjero", company.foreignTaxId),
+          fieldRow("Número de IVA", company.vatNumber),
+          fieldRow("Dirección registrada", company.registeredAddress),
+          fieldRow("Actividad empresarial", company.businessActivity),
+          fieldRow("Sitio web", company.website),
+          fieldRow("Vende en España", company.sellsInSpain),
+          fieldRow("Usa Amazon FBA", company.usesAmazonFba),
+          fieldRow("B2B intracomunitario", company.performsIntracommunityB2b),
         ]
       : [
-          fieldRow("Company Name", caseRecord.companyName),
-          fieldRow("Country", caseRecord.companyCountry),
+          fieldRow("Nombre de la empresa", caseRecord.companyName),
+          fieldRow("País", caseRecord.companyCountry),
         ],
     director: director
       ? [
-          fieldRow("Full Name", director.fullName),
-          fieldRow("Nationality", director.nationality),
-          fieldRow("Passport", director.passportNumber),
-          fieldRow("NIF M Number", director.nifMNumber),
+          fieldRow("Nombre completo", director.fullName),
+          fieldRow("Nacionalidad", director.nationality),
+          fieldRow("Pasaporte", director.passportNumber),
+          fieldRow("Número NIF M", director.nifMNumber),
         ]
       : [],
     representative: representative
       ? [
-          fieldRow("Name", representative.fullNameOrCompanyName),
+          fieldRow("Nombre", representative.fullNameOrCompanyName),
           fieldRow("NIF", representative.nif),
-          fieldRow("Resident in Spain", representative.residentInSpain),
-          fieldRow("Representation Type", representative.representationType),
-          fieldRow("Power of Attorney", representative.powerOfAttorneyPresent),
+          fieldRow("Residente en España", representative.residentInSpain),
+          fieldRow("Tipo de representación", representative.representationType),
+          fieldRow("Poder de representación", representative.powerOfAttorneyPresent),
         ]
       : [],
     idStatus: {
@@ -323,7 +323,7 @@ export async function buildModelo036ReviewPack(
       ...(draft?.warnings ?? []),
       ...(extraction?.warnings ?? []),
       ...(caseRecord.modelo036Locked
-        ? ["Modelo 036 is LOCKED until NIF M is received."]
+        ? ["El Modelo 036 está BLOQUEADO hasta recibir el NIF M."]
         : []),
     ],
     analystNotes: caseRecord.internalNotes.map((n) => ({

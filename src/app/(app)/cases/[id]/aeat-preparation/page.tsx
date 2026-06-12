@@ -24,8 +24,8 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
   return (
     <div>
       <PageHeader
-        title={`AEAT Preparation — ${status.caseNumber}`}
-        description="Manual submission preparation — TaxFlow Spain does NOT submit to AEAT automatically"
+        title={`Preparación AEAT — ${status.caseNumber}`}
+        description="Preparación para envío manual: TaxFlow Spain NO envía a la AEAT automáticamente"
         actions={
           <div className="flex gap-2">
             {status.modelo030.required && (
@@ -33,7 +33,7 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
                 href={`/cases/${id}/modelo-030-draft`}
                 className="rounded-lg border border-purple-200 bg-purple-50 px-3 py-2 text-sm text-purple-700 hover:bg-purple-100"
               >
-                Modelo 030 Draft
+                Borrador Modelo 030
               </Link>
             )}
             {status.modelo036.required && (
@@ -41,14 +41,14 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
                 href={`/cases/${id}/modelo-036-draft`}
                 className="rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-sm text-teal-700 hover:bg-teal-100"
               >
-                Modelo 036 Draft
+                Borrador Modelo 036
               </Link>
             )}
             <Link
               href={`/cases/${id}`}
               className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
             >
-              ← Case
+              ← Caso
             </Link>
           </div>
         }
@@ -59,9 +59,9 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
       </div>
 
       <div className="mb-6 rounded-lg border-2 border-red-200 bg-red-50 px-4 py-4 text-sm text-red-900">
-        <strong>No automatic submission.</strong> This page prepares materials and records
-        evidence after a human submits manually via AEAT sede electrónica or authorized channel.
-        The AI and drafts are reference only — not legally final.
+        <strong>No hay envío automático.</strong> Esta página prepara materiales y registra
+        evidencia después de que una persona envíe manualmente vía sede electrónica de AEAT
+        o canal autorizado. La IA y los borradores son solo referencia, no documentos finales legales.
       </div>
 
       <div className="mb-6">
@@ -73,19 +73,19 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-8">
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-sm font-semibold text-slate-900 mb-3">Draft Status</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-3">Estado de borradores</h3>
           <dl className="space-y-2 text-sm">
             {status.modelo030.required && (
               <>
                 <div className="flex justify-between">
                   <dt className="text-slate-500">Modelo 030</dt>
                   <dd className={status.modelo030.draftApproved ? "text-green-600 font-medium" : "text-amber-600"}>
-                    {status.modelo030.draftApproved ? "Approved" : status.modelo030.draftStatus ?? "Not generated"}
+                    {status.modelo030.draftApproved ? "Aprobado" : status.modelo030.draftStatus ?? "No generado"}
                   </dd>
                 </div>
                 {status.modelo030.missingFields.length > 0 && (
                   <p className="text-xs text-amber-600">
-                    {status.modelo030.missingFields.length} missing draft field(s)
+                    {status.modelo030.missingFields.length} campo(s) faltantes en el borrador
                   </p>
                 )}
               </>
@@ -96,10 +96,10 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
                   <dt className="text-slate-500">Modelo 036</dt>
                   <dd className={status.modelo036.draftApproved ? "text-green-600 font-medium" : "text-amber-600"}>
                     {status.modelo036.locked
-                      ? "Locked"
+                      ? "Bloqueado"
                       : status.modelo036.draftApproved
-                        ? "Approved"
-                        : status.modelo036.draftStatus ?? "Not generated"}
+                        ? "Aprobado"
+                        : status.modelo036.draftStatus ?? "No generado"}
                   </dd>
                 </div>
               </>
@@ -108,14 +108,14 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-sm font-semibold text-slate-900 mb-3">Fields & Checklist</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-3">Campos y checklist</h3>
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <dt className="text-slate-500">Fields approved</dt>
+              <dt className="text-slate-500">Campos aprobados</dt>
               <dd>{status.fields.approved} / {status.fields.total}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-slate-500">Pending review</dt>
+              <dt className="text-slate-500">Pendientes de revisión</dt>
               <dd className={status.fields.pendingReview > 0 ? "text-amber-600" : ""}>
                 {status.fields.pendingReview}
               </dd>
@@ -125,21 +125,21 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
               <dd>{status.checklist.completed} / {status.checklist.total}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-slate-500">Documents</dt>
-              <dd>{status.documents.total} ({status.documents.approved} approved)</dd>
+              <dt className="text-slate-500">Documentos</dt>
+              <dd>{status.documents.total} ({status.documents.approved} aprobados)</dd>
             </div>
           </dl>
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-sm font-semibold text-slate-900 mb-3">Review Packs</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-3">Paquetes de revisión</h3>
           <div className="space-y-2">
             {status.modelo030.required && (
               <Link
                 href={`/cases/${id}/review-pack/modelo-030`}
                 className="block text-sm text-blue-600 hover:underline"
               >
-                Modelo 030 Review Pack →
+                Paquete de revisión Modelo 030 →
               </Link>
             )}
             {status.modelo036.required && (
@@ -147,7 +147,7 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
                 href={`/cases/${id}/review-pack/modelo-036`}
                 className="block text-sm text-blue-600 hover:underline"
               >
-                Modelo 036 Review Pack →
+                Paquete de revisión Modelo 036 →
               </Link>
             )}
           </div>
@@ -156,7 +156,7 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
 
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm mb-8">
         <h3 className="text-sm font-semibold text-slate-900 mb-3">
-          Manual AEAT Submission Instructions
+          Instrucciones para envío manual a AEAT
         </h3>
         <ol className="list-decimal list-inside space-y-2 text-sm text-slate-700">
           {status.manualInstructions.map((instruction, i) => (
@@ -167,10 +167,10 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
 
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm mb-8">
         <h3 className="text-sm font-semibold text-slate-900 mb-1">
-          Record Submission Evidence
+          Registrar evidencia de envío
         </h3>
         <p className="text-xs text-slate-500 mb-4">
-          After manually submitting via AEAT, upload the receipt and reference number here.
+          Después de enviar manualmente vía AEAT, sube aquí el justificante y el número de referencia.
         </p>
         <SubmissionEvidenceForm caseId={id} defaultType={defaultSubmissionType} />
       </div>
@@ -178,16 +178,16 @@ export default async function AeatPreparationPage({ params }: AeatPreparationPag
       {status.submissionEvidence.length > 0 && (
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <h3 className="text-sm font-semibold text-slate-900 mb-3">
-            Submission Evidence History
+            Historial de evidencias de envío
           </h3>
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left text-slate-500">
-                <th className="pb-2">Type</th>
-                <th className="pb-2">Receipt #</th>
-                <th className="pb-2">Submitted by</th>
-                <th className="pb-2">Date</th>
-                <th className="pb-2">Notes</th>
+                <th className="pb-2">Tipo</th>
+                <th className="pb-2">Justificante #</th>
+                <th className="pb-2">Enviado por</th>
+                <th className="pb-2">Fecha</th>
+                <th className="pb-2">Notas</th>
               </tr>
             </thead>
             <tbody className="divide-y">

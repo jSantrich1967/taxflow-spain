@@ -50,74 +50,74 @@ export function mapToModelo030Draft(
   const fields: Record<string, DraftField> = {
     "presentation.cause": draftField(
       "presentation.cause",
-      "Presentation Cause",
+      "Causa de presentación",
       "Solicitud de NIF por persona física que no disponga de DNI/NIE",
     ),
     "interested_person.passport_number": draftField(
       "interested_person.passport_number",
-      "Passport Number",
+      "Número de pasaporte",
       fieldMap["director.passport_number"] ?? director.passport_number,
     ),
     "interested_person.foreign_tax_id": draftField(
       "interested_person.foreign_tax_id",
-      "Foreign Tax ID",
+      "ID fiscal extranjero",
       director.foreign_tax_id || null,
     ),
     "interested_person.nationality": draftField(
       "interested_person.nationality",
-      "Nationality",
+      "Nacionalidad",
       fieldMap["director.nationality"] ?? director.nationality,
     ),
     "interested_person.first_surname": draftField(
       "interested_person.first_surname",
-      "First Surname",
+      "Primer apellido",
       director.last_name_1 || null,
     ),
     "interested_person.second_surname": draftField(
       "interested_person.second_surname",
-      "Second Surname",
+      "Segundo apellido",
       director.last_name_2 || null,
     ),
     "interested_person.first_name": draftField(
       "interested_person.first_name",
-      "First Name",
+      "Nombre",
       director.first_name || null,
     ),
     "interested_person.date_of_birth": draftField(
       "interested_person.date_of_birth",
-      "Date of Birth",
+      "Fecha de nacimiento",
       fieldMap["director.date_of_birth"] ?? director.date_of_birth,
     ),
     "interested_person.place_of_birth": draftField(
       "interested_person.place_of_birth",
-      "Place of Birth",
+      "Lugar de nacimiento",
       [director.place_of_birth_city, director.place_of_birth_country]
         .filter(Boolean)
         .join(", ") || null,
     ),
     "foreign_address.address": draftField(
       "foreign_address.address",
-      "Foreign Address",
+      "Dirección extranjera",
       director.address || null,
     ),
     "foreign_address.city": draftField(
       "foreign_address.city",
-      "City",
+      "Ciudad",
       director.city || null,
     ),
     "foreign_address.postal_code": draftField(
       "foreign_address.postal_code",
-      "Postal Code",
+      "Código postal",
       director.postal_code || null,
     ),
     "foreign_address.province": draftField(
       "foreign_address.province",
-      "Province / Region / State",
+      "Provincia / Región / Estado",
       director.province_region_state || null,
     ),
     "foreign_address.country": draftField(
       "foreign_address.country",
-      "Country",
+      "País",
       fieldMap["director.country"] ?? director.country,
     ),
     "contact.email": draftField(
@@ -127,35 +127,35 @@ export function mapToModelo030Draft(
     ),
     "contact.mobile_phone": draftField(
       "contact.mobile_phone",
-      "Mobile Phone",
+      "Teléfono móvil",
       extraction.client.contact_phone || null,
     ),
     "representative.nif": draftField(
       "representative.nif",
-      "Representative NIF",
+      "NIF del representante",
       fieldMap["representative.nif"] ?? representative.nif,
     ),
     "representative.name": draftField(
       "representative.name",
-      "Representative Name",
+      "Nombre del representante",
       fieldMap["representative.full_name_or_company_name"] ??
         representative.full_name_or_company_name,
     ),
     "representative.resident_in_spain": draftField(
       "representative.resident_in_spain",
-      "Resident in Spain",
+      "Residente en España",
       representative.resident_in_spain,
     ),
   };
 
   const warnings: string[] = [
-    "INTERNAL DRAFT ONLY — Not legally final. Requires human review before any AEAT submission.",
+    "SOLO BORRADOR INTERNO: no es legalmente final. Requiere revisión humana antes de cualquier envío a AEAT.",
     ...extraction.warnings,
   ];
 
   if (director.has_spanish_dni || director.has_spanish_nie) {
     warnings.push(
-      "Director may already have Spanish DNI/NIE. Verify whether Modelo 030 is actually required.",
+      "El director podría tener ya DNI/NIE español. Verifica si el Modelo 030 es realmente necesario.",
     );
   }
 

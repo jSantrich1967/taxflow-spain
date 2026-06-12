@@ -60,7 +60,7 @@ export async function processWebhookIngestion(
   options?: { secret?: string | null },
 ): Promise<WebhookIngestionResult> {
   if (!verifyWebhookSecret(options?.secret)) {
-    return { success: false, error: "Invalid webhook secret" };
+    return { success: false, error: "Secreto de webhook inválido" };
   }
 
   const actions: string[] = [];

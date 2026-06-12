@@ -18,7 +18,7 @@ export function RunExtractionButton({ caseId }: RunExtractionButtonProps) {
     startTransition(async () => {
       const result = await runExtractionAction(caseId);
       if (!result.success) {
-        setError(result.error ?? "Extraction failed");
+        setError(result.error ?? "La extracción falló");
         return;
       }
       router.refresh();
@@ -36,10 +36,10 @@ export function RunExtractionButton({ caseId }: RunExtractionButtonProps) {
         {isPending ? (
           <>
             <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            Running AI extraction…
+            Ejecutando extracción con IA...
           </>
         ) : (
-          <>🤖 Run AI Extraction</>
+          <>🤖 Ejecutar extracción con IA</>
         )}
       </button>
       {error && (

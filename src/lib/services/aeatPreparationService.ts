@@ -133,76 +133,76 @@ export async function getAeatPreparationStatus(
 
   if (caseRecord.requiresModelo030) {
     checks.push({
-      label: "Modelo 030 draft approved",
+      label: "Borrador Modelo 030 aprobado",
       passed: modelo030Approved,
       detail: modelo030Approved
-        ? "Internal Modelo 030 draft has human approval"
-        : "Approve Modelo 030 draft before AEAT preparation",
+        ? "El borrador interno Modelo 030 tiene aprobación humana"
+        : "Aprueba el borrador Modelo 030 antes de la preparación AEAT",
     });
     checks.push({
-      label: "Modelo 030 draft complete",
+      label: "Borrador Modelo 030 completo",
       passed: (draft030?.draft?.missingFields.length ?? 1) === 0,
-      detail: `${draft030?.draft?.missingFields.length ?? "N/A"} missing field(s)`,
+      detail: `${draft030?.draft?.missingFields.length ?? "N/A"} campo(s) faltantes`,
     });
   }
 
   if (caseRecord.requiresModelo036) {
     checks.push({
-      label: "Modelo 036 not locked",
+      label: "Modelo 036 desbloqueado",
       passed: !caseRecord.modelo036Locked,
       detail: caseRecord.modelo036Locked
-        ? "NIF M required before Modelo 036"
-        : "Modelo 036 unlocked",
+        ? "Se requiere NIF M antes del Modelo 036"
+        : "Modelo 036 desbloqueado",
     });
     checks.push({
-      label: "Modelo 036 draft approved",
+      label: "Borrador Modelo 036 aprobado",
       passed: modelo036Approved,
       detail: modelo036Approved
-        ? "Internal Modelo 036 draft has human approval"
-        : "Approve Modelo 036 draft before AEAT preparation",
+        ? "El borrador interno Modelo 036 tiene aprobación humana"
+        : "Aprueba el borrador Modelo 036 antes de la preparación AEAT",
     });
   }
 
   checks.push({
-    label: "AI fields reviewed",
+    label: "Campos de IA revisados",
     passed: fieldsPending === 0,
-    detail: `${fieldsPending} field(s) pending analyst review`,
+    detail: `${fieldsPending} campo(s) pendientes de revisión por analista`,
   });
 
   checks.push({
-    label: "Checklist items addressed",
+    label: "Elementos de checklist resueltos",
     passed: checklistPending === 0,
-    detail: `${checklistPending} checklist item(s) still pending`,
+    detail: `${checklistPending} elemento(s) de checklist siguen pendientes`,
   });
 
   const readyForManualSubmission = checks.every((c) => c.passed);
 
   const manualInstructions: string[] = [
-    "IMPORTANT: TaxFlow Spain does NOT submit forms to AEAT automatically.",
-    "Use the approved internal drafts as reference only — verify every field manually.",
-    "Access AEAT sede electrónica with authorized credentials.",
+    "IMPORTANTE: TaxFlow Spain NO envía formularios a AEAT automáticamente.",
+    "Usa los borradores internos aprobados solo como referencia; verifica cada campo manualmente.",
+    "Accede a la sede electrónica de AEAT con credenciales autorizadas.",
   ];
 
   if (caseRecord.requiresModelo030) {
     manualInstructions.push(
-      "Modelo 030: Submit via AEAT for NIF M (foreign individual without DNI/NIE).",
-      "Retain AEAT receipt and upload it below as submission evidence.",
+      "Modelo 030: envía vía AEAT para NIF M (persona extranjera sin DNI/NIE).",
+      "Conserva el justificante de AEAT y súbelo abajo como evidencia de envío.",
     );
   }
   if (caseRecord.requiresModelo036) {
     manualInstructions.push(
-      "Modelo 036: Submit via AEAT for company census registration / VAT.",
-      "Ensure NIF M is already assigned to the foreign director if applicable.",
+      "Modelo 036: envía vía AEAT para alta censal de empresa / IVA.",
+      "Asegúrate de que el NIF M ya esté asignado al director extranjero si aplica.",
     );
   }
   if (caseRecord.vatReviewRequired) {
     manualInstructions.push(
-      "Complete VAT section carefully — verify permanent establishment and activity in Spain.",
+      "Completa la sección de IVA con cuidado; verifica establecimiento permanente y actividad en España.",
     );
   }
   if (caseRecord.roiReviewRequired) {
     manualInstructions.push(
-      "Verify ROI / VIES registration requirements for intra-community B2B activity.",
+      "Verifica los requisitos de registro ROI / VIES para actividad B2B intracomunitaria.",
     );
   }
 
@@ -276,7 +276,7 @@ export async function recordSubmissionEvidence(
   const caseRecord = await prisma.case.findUnique({
     where: { id: input.caseId },
   });
-  if (!caseRecord) return { success: false, error: "Case not found" };
+  if (!caseRecord) return { success: false, error: "Caso no encontrado" };
 
   let receiptFilePath: string | null = null;
 
@@ -303,7 +303,7 @@ export async function recordSubmissionEvidence(
       submissionType: input.submissionType,
       receiptFilePath,
       receiptNumber: input.receiptNumber ?? null,
-      submittedBy: input.submittedBy ?? "Analyst",
+      submittedBy: input.submittedBy ?? "Analista",
       submittedAt: input.submittedAt ?? new Date(),
       notes: input.notes ?? null,
     },
@@ -326,7 +326,7 @@ export async function recordSubmissionEvidence(
 
   await logAuditEvent({
     caseId: input.caseId,
-    userName: input.submittedBy ?? "Analyst",
+    userName: input.submittedBy ?? "Analista",
     action: "RECEIPT_UPLOADED",
     newValue: input.receiptNumber ?? input.submissionType,
     metadata: { evidenceId: evidence.id, submissionType: input.submissionType },
@@ -334,7 +334,7 @@ export async function recordSubmissionEvidence(
 
   await logAuditEvent({
     caseId: input.caseId,
-    userName: input.submittedBy ?? "Analyst",
+    userName: input.submittedBy ?? "Analista",
     action: "AEAT_PREPARATION_COMPLETED",
     newValue: "Evidence recorded — manual submission",
     metadata: { evidenceId: evidence.id },
@@ -345,7 +345,7 @@ export async function recordSubmissionEvidence(
 
 export async function markAeatPreparationReviewed(
   caseId: string,
-  userName = "Analyst",
+  userName = "Analista",
 ) {
   await logAuditEvent({
     caseId,

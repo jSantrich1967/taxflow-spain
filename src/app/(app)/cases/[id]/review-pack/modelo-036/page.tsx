@@ -25,10 +25,10 @@ export default async function Modelo036ReviewPackPage({ params }: ReviewPackPage
             href={`/cases/${id}/modelo-036-draft`}
             className="text-sm text-blue-600 hover:underline"
           >
-            ← Back to Modelo 036 Draft
+            ← Volver al borrador Modelo 036
           </Link>
           <h1 className="text-xl font-bold text-slate-900 mt-2">
-            Review Pack — {caseRecord.caseNumber}
+            Paquete de revisión — {caseRecord.caseNumber}
           </h1>
         </div>
         <PrintButton />

@@ -20,8 +20,8 @@ export function ReadinessChecklist({ checks, ready }: ReadinessChecklistProps) {
         }`}
       >
         {ready
-          ? "✓ Ready for manual AEAT submission preparation"
-          : "Not yet ready — complete items below"}
+          ? "✓ Listo para preparar el envío manual a AEAT"
+          : "Todavía no está listo: completa los elementos de abajo"}
       </h3>
       <ul className="space-y-2">
         {checks.map((check, i) => (

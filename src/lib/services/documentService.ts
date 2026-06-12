@@ -97,14 +97,14 @@ export async function uploadDocument(
       originalFileName: input.file.name,
       filePath,
       status: DocumentStatus.UPLOADED,
-      uploadedBy: input.uploadedBy ?? "Analyst",
+      uploadedBy: input.uploadedBy ?? "Analista",
       aiProcessed: false,
     },
   });
 
   await logAuditEvent({
     caseId: input.caseId,
-    userName: input.uploadedBy ?? "Analyst",
+    userName: input.uploadedBy ?? "Analista",
     action: "DOCUMENT_UPLOADED",
     newValue: input.file.name,
     metadata: { documentId: document.id, documentType: document.documentType },

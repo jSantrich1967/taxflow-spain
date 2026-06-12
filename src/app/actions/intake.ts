@@ -41,7 +41,7 @@ export async function ingestCrmAction(caseId: string, formData: FormData) {
   const runExtraction = formData.get("runExtraction") === "on";
 
   if (!crmJson) {
-    return { success: false, error: "CRM JSON is required" };
+    return { success: false, error: "El JSON del CRM es obligatorio" };
   }
 
   const result = await ingestCrmRecord({

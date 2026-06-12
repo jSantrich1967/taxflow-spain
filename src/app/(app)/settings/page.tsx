@@ -8,32 +8,32 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Settings & Compliance</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Configuración y cumplimiento</h1>
         <p className="mt-1 text-sm text-slate-600">
-          Admin-only: users, GDPR controls, and retention policy
+          Solo administradores: usuarios, controles GDPR y política de retención
         </p>
       </div>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">Data retention policy</h2>
+        <h2 className="text-lg font-semibold text-slate-900">Política de retención de datos</h2>
         <p className="mt-2 text-sm text-slate-600">{data.policy.description}</p>
         <p className="mt-2 text-sm">
-          Retention window:{" "}
-          <span className="font-medium">{data.policy.retentionDays} days</span>
+          Ventana de retención:{" "}
+          <span className="font-medium">{data.policy.retentionDays} días</span>
         </p>
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">Users</h2>
+        <h2 className="text-lg font-semibold text-slate-900">Usuarios</h2>
         <div className="mt-4 overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
               <tr className="border-b text-left text-slate-500">
-                <th className="py-2 pr-4">Name</th>
+                <th className="py-2 pr-4">Nombre</th>
                 <th className="py-2 pr-4">Email</th>
-                <th className="py-2 pr-4">Role</th>
-                <th className="py-2 pr-4">Status</th>
-                <th className="py-2">Last login</th>
+                <th className="py-2 pr-4">Rol</th>
+                <th className="py-2 pr-4">Estado</th>
+                <th className="py-2">Último acceso</th>
               </tr>
             </thead>
             <tbody>
@@ -43,7 +43,7 @@ export default async function SettingsPage() {
                   <td className="py-2 pr-4">{user.email}</td>
                   <td className="py-2 pr-4">{user.role}</td>
                   <td className="py-2 pr-4">
-                    {user.isActive ? "Active" : "Inactive"}
+                    {user.isActive ? "Activo" : "Inactivo"}
                   </td>
                   <td className="py-2">
                     {user.lastLoginAt
@@ -59,13 +59,13 @@ export default async function SettingsPage() {
 
       <section className="rounded-xl border border-slate-200 bg-white p-6">
         <h2 className="text-lg font-semibold text-slate-900">
-          Retention review queue
+          Cola de revisión de retención
         </h2>
         <p className="mt-1 text-sm text-slate-600">
-          Cases older than the retention window in terminal statuses
+          Casos más antiguos que la ventana de retención en estados finales
         </p>
         {data.retentionCandidates.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">No cases pending review.</p>
+          <p className="mt-4 text-sm text-slate-500">No hay casos pendientes de revisión.</p>
         ) : (
           <ul className="mt-4 space-y-2">
             {data.retentionCandidates.map((item) => (
@@ -77,7 +77,7 @@ export default async function SettingsPage() {
                   {item.caseNumber}
                 </Link>
                 <span className="text-slate-500">
-                  {item.status} · updated{" "}
+                  {item.status} · actualizado{" "}
                   {new Date(item.updatedAt).toLocaleDateString()}
                 </span>
               </li>

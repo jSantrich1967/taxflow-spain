@@ -7,13 +7,13 @@ export async function GET(request: Request) {
 
   if (!cronSecret) {
     return NextResponse.json(
-      { error: "CRON_SECRET is not configured" },
+      { error: "CRON_SECRET no está configurado" },
       { status: 503 },
     );
   }
 
   if (authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
 
   const summary = await runAllIntegrationSyncs();

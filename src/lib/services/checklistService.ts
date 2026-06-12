@@ -8,27 +8,27 @@ import { ChecklistItemDefinition } from "@/lib/types";
 
 const MODELO_030_ITEMS: Omit<ChecklistItemDefinition, "status">[] = [
   {
-    documentName: "Director passport",
+    documentName: "Pasaporte del director",
     category: CHECKLIST_CATEGORIES.MODELO_030,
     required: true,
   },
   {
-    documentName: "Proof of address",
+    documentName: "Prueba de domicilio",
     category: CHECKLIST_CATEGORIES.MODELO_030,
     required: true,
   },
   {
-    documentName: "Power of attorney / tax authorization",
+    documentName: "Poder de representación / autorización fiscal",
     category: CHECKLIST_CATEGORIES.MODELO_030,
     required: true,
   },
   {
-    documentName: "Reason for requesting Spanish NIF",
+    documentName: "Motivo para solicitar NIF español",
     category: CHECKLIST_CATEGORIES.MODELO_030,
     required: true,
   },
   {
-    documentName: "Contact details",
+    documentName: "Datos de contacto",
     category: CHECKLIST_CATEGORIES.MODELO_030,
     required: true,
   },
@@ -36,37 +36,37 @@ const MODELO_030_ITEMS: Omit<ChecklistItemDefinition, "status">[] = [
 
 const MODELO_036_ITEMS: Omit<ChecklistItemDefinition, "status">[] = [
   {
-    documentName: "Company incorporation certificate",
+    documentName: "Certificado de constitución de la empresa",
     category: CHECKLIST_CATEGORIES.MODELO_036,
     required: true,
   },
   {
-    documentName: "Company registry extract",
+    documentName: "Extracto del registro mercantil",
     category: CHECKLIST_CATEGORIES.MODELO_036,
     required: true,
   },
   {
-    documentName: "Articles of association (if applicable)",
+    documentName: "Estatutos sociales (si aplica)",
     category: CHECKLIST_CATEGORIES.MODELO_036,
     required: false,
   },
   {
-    documentName: "Director identification document",
+    documentName: "Documento de identificación del director",
     category: CHECKLIST_CATEGORIES.MODELO_036,
     required: true,
   },
   {
-    documentName: "NIF M / NIE / DNI of representative",
+    documentName: "NIF M / NIE / DNI del representante",
     category: CHECKLIST_CATEGORIES.MODELO_036,
     required: true,
   },
   {
-    documentName: "Power of attorney",
+    documentName: "Poder de representación",
     category: CHECKLIST_CATEGORIES.MODELO_036,
     required: true,
   },
   {
-    documentName: "Business activity description",
+    documentName: "Descripción de actividad empresarial",
     category: CHECKLIST_CATEGORIES.MODELO_036,
     required: true,
   },
@@ -74,22 +74,22 @@ const MODELO_036_ITEMS: Omit<ChecklistItemDefinition, "status">[] = [
 
 const VAT_ITEMS: Omit<ChecklistItemDefinition, "status">[] = [
   {
-    documentName: "Evidence of commercial activity in Spain",
+    documentName: "Evidencia de actividad comercial en España",
     category: CHECKLIST_CATEGORIES.VAT,
     required: true,
   },
   {
-    documentName: "Amazon FBA / warehouse information",
+    documentName: "Información de Amazon FBA / almacén",
     category: CHECKLIST_CATEGORIES.VAT,
     required: false,
   },
   {
-    documentName: "Sales channels information",
+    documentName: "Información de canales de venta",
     category: CHECKLIST_CATEGORIES.VAT,
     required: true,
   },
   {
-    documentName: "Spanish inventory information (if applicable)",
+    documentName: "Información de inventario en España (si aplica)",
     category: CHECKLIST_CATEGORIES.VAT,
     required: false,
   },
@@ -97,17 +97,17 @@ const VAT_ITEMS: Omit<ChecklistItemDefinition, "status">[] = [
 
 const ROI_VIES_ITEMS: Omit<ChecklistItemDefinition, "status">[] = [
   {
-    documentName: "Evidence of intra-community B2B transactions",
+    documentName: "Evidencia de operaciones B2B intracomunitarias",
     category: CHECKLIST_CATEGORIES.ROI_VIES,
     required: true,
   },
   {
-    documentName: "EU customer / supplier information",
+    documentName: "Información de clientes / proveedores UE",
     category: CHECKLIST_CATEGORIES.ROI_VIES,
     required: true,
   },
   {
-    documentName: "Expected EU transaction flow",
+    documentName: "Flujo esperado de operaciones UE",
     category: CHECKLIST_CATEGORIES.ROI_VIES,
     required: true,
   },

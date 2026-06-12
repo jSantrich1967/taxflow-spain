@@ -28,14 +28,14 @@ export default async function IntakePage({ params }: IntakePageProps) {
   return (
     <div>
       <PageHeader
-        title={`AI Intake — ${caseRecord.caseNumber}`}
-        description="Add email content or CRM records to an existing case — no n8n required"
+        title={`Entrada IA — ${caseRecord.caseNumber}`}
+        description="Añade contenido de email o registros del CRM a un caso existente, sin n8n"
         actions={
           <Link
             href={`/cases/${id}`}
             className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
           >
-            ← Back to Case
+            ← Volver al caso
           </Link>
         }
       />
@@ -47,26 +47,26 @@ export default async function IntakePage({ params }: IntakePageProps) {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-8">
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-sm font-semibold text-slate-900 mb-1">Email Ingestion</h2>
+          <h2 className="text-sm font-semibold text-slate-900 mb-1">Ingesta de email</h2>
           <p className="text-xs text-slate-500 mb-4">
-            Paste email content manually. Future: Gmail API, Microsoft Graph.
+            Pega contenido de email manualmente. También puedes usar la integración automática de Gmail.
           </p>
           <EmailIngestionForm caseId={id} />
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-sm font-semibold text-slate-900 mb-1">CRM Import</h2>
+          <h2 className="text-sm font-semibold text-slate-900 mb-1">Importación CRM</h2>
           <p className="text-xs text-slate-500 mb-4">
-            Import JSON from HubSpot, Salesforce, Zoho, or manual export.
+            Importa JSON desde HubSpot, Salesforce, Zoho o una exportación manual.
           </p>
           <CrmIngestionForm caseId={id} />
         </div>
       </div>
 
       <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mb-6">
-        <h3 className="text-sm font-semibold text-slate-900 mb-2">Webhook API (integrations)</h3>
+        <h3 className="text-sm font-semibold text-slate-900 mb-2">API de webhook (integraciones)</h3>
         <p className="text-sm text-slate-600 mb-2">
-          POST JSON to{" "}
+          Envía JSON por POST a{" "}
           <code className="rounded bg-white px-1.5 py-0.5 text-xs border">
             /api/webhooks/ingest
           </code>
@@ -85,23 +85,23 @@ export default async function IntakePage({ params }: IntakePageProps) {
 }`}
         </pre>
         <p className="text-xs text-slate-500 mt-2">
-          Set <code>WEBHOOK_SECRET</code> in .env and pass header{" "}
-          <code>x-webhook-secret</code> for production.
+          Configura <code>WEBHOOK_SECRET</code> en .env y envía el header{" "}
+          <code>x-webhook-secret</code> en producción.
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-sm font-semibold text-slate-900 mb-3">Email Ingestion Log</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-3">Registro de ingesta de emails</h3>
           {emailLogs.length === 0 ? (
-            <p className="text-sm text-slate-500">No emails ingested yet.</p>
+            <p className="text-sm text-slate-500">Todavía no se han ingerido emails.</p>
           ) : (
             <ul className="space-y-2 text-sm">
               {emailLogs.map((log) => (
                 <li key={log.id} className="border-b border-slate-100 pb-2">
-                  <p className="font-medium">{log.subject ?? "No subject"}</p>
+                  <p className="font-medium">{log.subject ?? "Sin asunto"}</p>
                   <p className="text-xs text-slate-500">
-                    {log.fromEmail} · {log.processed ? "Processed" : "Pending"} ·{" "}
+                    {log.fromEmail} · {log.processed ? "Procesado" : "Pendiente"} ·{" "}
                     {new Date(log.createdAt).toLocaleString()}
                   </p>
                 </li>
@@ -111,9 +111,9 @@ export default async function IntakePage({ params }: IntakePageProps) {
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-sm font-semibold text-slate-900 mb-3">CRM Ingestion Log</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-3">Registro de ingesta CRM</h3>
           {crmLogs.length === 0 ? (
-            <p className="text-sm text-slate-500">No CRM records imported yet.</p>
+            <p className="text-sm text-slate-500">Todavía no se han importado registros CRM.</p>
           ) : (
             <ul className="space-y-2 text-sm">
               {crmLogs.map((log) => (
@@ -121,7 +121,7 @@ export default async function IntakePage({ params }: IntakePageProps) {
                   <p className="font-medium">{log.crmName}</p>
                   <p className="text-xs text-slate-500">
                     ID: {log.externalRecordId ?? "—"} ·{" "}
-                    {log.processed ? "Processed" : "Pending"} ·{" "}
+                    {log.processed ? "Procesado" : "Pendiente"} ·{" "}
                     {new Date(log.createdAt).toLocaleString()}
                   </p>
                 </li>

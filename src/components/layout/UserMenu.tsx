@@ -21,14 +21,14 @@ export async function UserMenu() {
             type="submit"
             className="w-full rounded-lg px-3 py-2 text-left text-sm text-white/70 hover:bg-white/10 hover:text-white transition-colors"
           >
-            Sign out
+            Cerrar sesión
           </button>
         </form>
       )}
 
       {isAuthDisabled() && (
         <p className="mt-3 text-xs text-amber-300/80">
-          Auth disabled (dev mode)
+          Autenticación desactivada (modo desarrollo)
         </p>
       )}
     </div>

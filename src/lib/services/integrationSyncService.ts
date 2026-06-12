@@ -12,13 +12,13 @@ export async function runAllIntegrationSyncs(): Promise<IntegrationSyncSummary> 
       success: false,
       processed: 0,
       createdCases: 0,
-      errors: [error instanceof Error ? error.message : "Gmail sync failed"],
+      errors: [error instanceof Error ? error.message : "La sincronización de Gmail falló"],
     })),
     syncHubSpotContacts().catch((error) => ({
       success: false,
       processed: 0,
       createdCases: 0,
-      errors: [error instanceof Error ? error.message : "HubSpot sync failed"],
+      errors: [error instanceof Error ? error.message : "La sincronización de HubSpot falló"],
     })),
   ]);
 

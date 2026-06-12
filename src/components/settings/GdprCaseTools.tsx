@@ -26,9 +26,9 @@ export function GdprCaseTools() {
       anchor.download = `gdpr-export-${data.caseNumber}.json`;
       anchor.click();
       URL.revokeObjectURL(url);
-      setMessage("Export downloaded successfully.");
+      setMessage("Exportación descargada correctamente.");
     } catch {
-      setMessage("Export failed. Check case ID and admin permissions.");
+      setMessage("La exportación falló. Revisa el ID del caso y los permisos de administrador.");
     } finally {
       setLoading(false);
     }
@@ -38,7 +38,7 @@ export function GdprCaseTools() {
     if (!caseId.trim()) return;
     if (
       !window.confirm(
-        "This will redact personal data for the case. Continue?",
+        "Esto ocultará los datos personales del caso. ¿Quieres continuar?",
       )
     ) {
       return;
@@ -49,11 +49,11 @@ export function GdprCaseTools() {
       const result = await anonymizeCaseAction(caseId.trim());
       setMessage(
         result.success
-          ? "Case anonymized successfully."
-          : result.error ?? "Anonymization failed.",
+          ? "Caso anonimizado correctamente."
+          : result.error ?? "La anonimización falló.",
       );
     } catch {
-      setMessage("Anonymization failed. Check permissions.");
+      setMessage("La anonimización falló. Revisa los permisos.");
     } finally {
       setLoading(false);
     }
@@ -61,21 +61,21 @@ export function GdprCaseTools() {
 
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-6">
-      <h2 className="text-lg font-semibold text-slate-900">GDPR tools</h2>
+      <h2 className="text-lg font-semibold text-slate-900">Herramientas GDPR</h2>
       <p className="mt-1 text-sm text-slate-600">
-        Export or anonymize data for a specific case (admin only)
+        Exporta o anonimiza datos de un caso específico (solo administradores)
       </p>
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="flex-1">
           <label htmlFor="gdpr-case-id" className="block text-sm font-medium text-slate-700">
-            Case ID
+            ID del caso
           </label>
           <input
             id="gdpr-case-id"
             value={caseId}
             onChange={(event) => setCaseId(event.target.value)}
-            placeholder="Paste case cuid..."
+            placeholder="Pega el cuid del caso..."
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
         </div>
@@ -85,7 +85,7 @@ export function GdprCaseTools() {
           onClick={handleExport}
           className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-50 disabled:opacity-50"
         >
-          Export JSON
+          Exportar JSON
         </button>
         <button
           type="button"
@@ -93,7 +93,7 @@ export function GdprCaseTools() {
           onClick={handleAnonymize}
           className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
         >
-          Anonymize
+          Anonimizar
         </button>
       </div>
 

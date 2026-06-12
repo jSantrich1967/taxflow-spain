@@ -44,7 +44,7 @@ export async function syncHubSpotContacts(): Promise<HubSpotSyncResult> {
       success: false,
       processed: 0,
       createdCases: 0,
-      errors: ["HubSpot access token is not configured"],
+      errors: ["El token de acceso de HubSpot no está configurado"],
     };
   }
 
@@ -104,7 +104,7 @@ export async function syncHubSpotContacts(): Promise<HubSpotSyncResult> {
             contactPhone: props.phone ?? undefined,
             companyName: props.company ?? undefined,
             companyCountry: props.country ?? undefined,
-            manualNotes: `Auto-created from HubSpot contact ${externalId}`,
+            manualNotes: `Creado automáticamente desde el contacto de HubSpot ${externalId}`,
           });
           result.createdCases += 1;
         }
@@ -124,7 +124,7 @@ export async function syncHubSpotContacts(): Promise<HubSpotSyncResult> {
           });
           if (!extraction.success) {
             result.errors.push(
-              `Contact ${externalId}: extraction failed — ${extraction.error}`,
+              `Contacto ${externalId}: la extracción falló — ${extraction.error}`,
             );
           }
         }
@@ -133,7 +133,7 @@ export async function syncHubSpotContacts(): Promise<HubSpotSyncResult> {
         result.processed += 1;
       } catch (error) {
         result.errors.push(
-          `Contact ${externalId}: ${error instanceof Error ? error.message : "unknown error"}`,
+          `Contacto ${externalId}: ${error instanceof Error ? error.message : "error desconocido"}`,
         );
       }
     }
@@ -145,7 +145,7 @@ export async function syncHubSpotContacts(): Promise<HubSpotSyncResult> {
     });
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "HubSpot sync failed";
+      error instanceof Error ? error.message : "La sincronización de HubSpot falló";
     await upsertIntegrationAccount("HUBSPOT", {
       lastSyncError: message,
     });

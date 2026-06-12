@@ -8,7 +8,7 @@ export function DraftFieldsTable({ fields }: DraftFieldsTableProps) {
   if (fields.length === 0) {
     return (
       <p className="text-sm text-slate-500 italic">
-        No draft generated yet. Generate a Modelo draft before printing the review pack.
+        Todavía no hay borrador generado. Genera un borrador del Modelo antes de imprimir el paquete de revisión.
       </p>
     );
   }
@@ -18,13 +18,13 @@ export function DraftFieldsTable({ fields }: DraftFieldsTableProps) {
       <thead>
         <tr className="bg-slate-100">
           <th className="border border-slate-300 px-3 py-2 text-left font-semibold">
-            Draft Field
+            Campo del borrador
           </th>
           <th className="border border-slate-300 px-3 py-2 text-left font-semibold">
-            Value
+            Valor
           </th>
           <th className="border border-slate-300 px-3 py-2 text-left font-semibold w-24">
-            Status
+            Estado
           </th>
         </tr>
       </thead>
@@ -38,7 +38,7 @@ export function DraftFieldsTable({ fields }: DraftFieldsTableProps) {
             <td className="border border-slate-300 px-3 py-2">{field.value}</td>
             <td className="border border-slate-300 px-3 py-2 text-xs">
               {field.missing ? (
-                <span className="text-amber-700 font-medium">Missing</span>
+                <span className="text-amber-700 font-medium">Faltante</span>
               ) : (
                 <span className="text-green-700">OK</span>
               )}

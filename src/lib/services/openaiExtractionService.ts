@@ -153,7 +153,7 @@ export async function extractStructuredData(
     };
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Unknown extraction error";
+      error instanceof Error ? error.message : "Error desconocido de extracción";
     return {
       success: false,
       error: message,

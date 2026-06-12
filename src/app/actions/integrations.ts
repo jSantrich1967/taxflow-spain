@@ -10,7 +10,7 @@ export async function saveHubSpotTokenAction(formData: FormData) {
 
   const token = String(formData.get("hubspotToken") ?? "").trim();
   if (!token) {
-    throw new Error("HubSpot token is required");
+    throw new Error("El token de HubSpot es obligatorio");
   }
 
   await upsertIntegrationAccount("HUBSPOT", {

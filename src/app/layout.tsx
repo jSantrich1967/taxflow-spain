@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "TaxFlow Spain",
   description:
-    "AI-assisted Spanish tax workflow automation for Modelo 030, Modelo 036, VAT and ROI compliance.",
+    "Automatización de flujos fiscales españoles asistida por IA para Modelo 030, Modelo 036, IVA y cumplimiento ROI.",
 };
 
 export default function RootLayout({

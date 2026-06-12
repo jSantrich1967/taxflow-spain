@@ -123,7 +123,7 @@ async function persistModelo036Draft(caseId: string, draft: Modelo036Draft) {
 
 export async function generateModelo030Draft(caseId: string) {
   const caseRecord = await loadCaseForDraft(caseId);
-  if (!caseRecord) return { success: false, error: "Case not found" };
+  if (!caseRecord) return { success: false, error: "Caso no encontrado" };
 
   if (!caseRecord.requiresModelo030) {
     return {
@@ -149,7 +149,7 @@ export async function generateModelo030Draft(caseId: string) {
 
 export async function generateModelo036Draft(caseId: string) {
   const caseRecord = await loadCaseForDraft(caseId);
-  if (!caseRecord) return { success: false, error: "Case not found" };
+  if (!caseRecord) return { success: false, error: "Caso no encontrado" };
 
   if (caseRecord.modelo036Locked) {
     return {
@@ -209,15 +209,15 @@ export async function updateModelo030DraftField(
   draftId: string,
   fieldKey: string,
   value: string,
-  userName = "Analyst",
+  userName = "Analista",
 ) {
   const record = await prisma.modelo030Draft.findFirst({
     where: { id: draftId, caseId },
   });
-  if (!record) return { success: false, error: "Draft not found" };
+  if (!record) return { success: false, error: "Borrador no encontrado" };
 
   const draft = parseDraftJson<Modelo030Draft>(record.draftJson);
-  if (!draft) return { success: false, error: "Invalid draft data" };
+  if (!draft) return { success: false, error: "Datos de borrador inválidos" };
 
   const updated = updateDraftFieldValue(draft, fieldKey, value);
 
@@ -247,15 +247,15 @@ export async function updateModelo036DraftField(
   draftId: string,
   fieldKey: string,
   value: string,
-  userName = "Analyst",
+  userName = "Analista",
 ) {
   const record = await prisma.modelo036Draft.findFirst({
     where: { id: draftId, caseId },
   });
-  if (!record) return { success: false, error: "Draft not found" };
+  if (!record) return { success: false, error: "Borrador no encontrado" };
 
   const draft = parseDraftJson<Modelo036Draft>(record.draftJson);
-  if (!draft) return { success: false, error: "Invalid draft data" };
+  if (!draft) return { success: false, error: "Datos de borrador inválidos" };
 
   const updated = updateDraftFieldValue036(draft, fieldKey, value);
 
@@ -283,23 +283,23 @@ export async function updateModelo036DraftField(
 export async function approveModelo030Draft(
   caseId: string,
   draftId: string,
-  userName = "Analyst",
+  userName = "Analista",
   notes?: string,
 ) {
   const record = await prisma.modelo030Draft.findFirst({
     where: { id: draftId, caseId },
   });
-  if (!record) return { success: false, error: "Draft not found" };
+  if (!record) return { success: false, error: "Borrador no encontrado" };
 
   const draft = parseDraftJson<Modelo030Draft>(record.draftJson);
-  if (!draft) return { success: false, error: "Invalid draft data" };
+  if (!draft) return { success: false, error: "Datos de borrador inválidos" };
 
   const refreshed = refreshDraftCompleteness(draft);
 
   if (refreshed.missingFields.length > 0) {
     return {
       success: false,
-      error: `Cannot approve: ${refreshed.missingFields.length} required field(s) still missing.`,
+      error: `No se puede aprobar: aún faltan ${refreshed.missingFields.length} campo(s) obligatorio(s).`,
       missingFields: refreshed.missingFields,
     };
   }
@@ -344,31 +344,31 @@ export async function approveModelo030Draft(
 export async function approveModelo036Draft(
   caseId: string,
   draftId: string,
-  userName = "Analyst",
+  userName = "Analista",
   notes?: string,
 ) {
   const caseRecord = await prisma.case.findUnique({ where: { id: caseId } });
   if (caseRecord?.modelo036Locked) {
     return {
       success: false,
-      error: "Modelo 036 is locked until NIF M is received.",
+      error: "El Modelo 036 está bloqueado hasta recibir el NIF M.",
     };
   }
 
   const record = await prisma.modelo036Draft.findFirst({
     where: { id: draftId, caseId },
   });
-  if (!record) return { success: false, error: "Draft not found" };
+  if (!record) return { success: false, error: "Borrador no encontrado" };
 
   const draft = parseDraftJson<Modelo036Draft>(record.draftJson);
-  if (!draft) return { success: false, error: "Invalid draft data" };
+  if (!draft) return { success: false, error: "Datos de borrador inválidos" };
 
   const refreshed = refreshDraftCompleteness036(draft);
 
   if (refreshed.missingFields.length > 0) {
     return {
       success: false,
-      error: `Cannot approve: ${refreshed.missingFields.length} required field(s) still missing.`,
+      error: `No se puede aprobar: aún faltan ${refreshed.missingFields.length} campo(s) obligatorio(s).`,
       missingFields: refreshed.missingFields,
     };
   }
@@ -410,7 +410,7 @@ export async function approveModelo036Draft(
   return { success: true };
 }
 
-export async function markNifMReceived(caseId: string, nifMNumber: string, userName = "Analyst") {
+export async function markNifMReceived(caseId: string, nifMNumber: string, userName = "Analista") {
   await prisma.case.update({
     where: { id: caseId },
     data: {

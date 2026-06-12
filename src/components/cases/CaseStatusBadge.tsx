@@ -12,9 +12,35 @@ const STATUS_STYLES: Record<string, string> = {
   REJECTED: "bg-red-50 text-red-700",
 };
 
+const STATUS_LABELS: Record<string, string> = {
+  NEW_CLIENT: "Cliente nuevo",
+  INTAKE_RECEIVED: "Entrada recibida",
+  AI_EXTRACTION_PENDING: "Extracción IA pendiente",
+  AI_EXTRACTION_COMPLETED: "Extracción IA completada",
+  WAITING_FOR_CLIENT_INFORMATION: "Esperando información del cliente",
+  DOCUMENTS_PENDING: "Documentos pendientes",
+  DOCUMENTS_UPLOADED: "Documentos subidos",
+  ANALYST_REVIEW: "Revisión de analista",
+  MISSING_INFORMATION_REQUESTED: "Información faltante solicitada",
+  MODELO_030_REQUIRED: "Modelo 030 requerido",
+  MODELO_030_DRAFT_READY: "Borrador 030 listo",
+  MODELO_030_APPROVED: "Modelo 030 aprobado",
+  MODELO_030_SUBMITTED: "Modelo 030 enviado",
+  WAITING_FOR_TAX_AUTHORITY_RESPONSE: "Esperando respuesta tributaria",
+  NIF_M_RECEIVED: "NIF M recibido",
+  MODELO_036_ACTIVE: "Modelo 036 activo",
+  MODELO_036_DRAFT_READY: "Borrador 036 listo",
+  MODELO_036_APPROVED: "Modelo 036 aprobado",
+  VAT_ROI_REVIEW: "Revisión IVA / ROI",
+  VAT_ROI_SUBMITTED: "IVA / ROI enviado",
+  COMPLETED: "Completado",
+  ON_HOLD: "En pausa",
+  REJECTED: "Rechazado",
+};
+
 export function CaseStatusBadge({ status }: { status: string }) {
   const style = STATUS_STYLES[status] ?? "bg-slate-100 text-slate-600";
-  const label = status.replace(/_/g, " ");
+  const label = STATUS_LABELS[status] ?? status.replace(/_/g, " ");
 
   return (
     <span

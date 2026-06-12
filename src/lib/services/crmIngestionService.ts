@@ -31,11 +31,11 @@ const SUPPORTED_CRMS = [
 export async function ingestCrmRecord(
   input: CrmIngestionInput,
 ): Promise<CrmIngestionResult> {
-  const { caseId, crmName, userName = "Analyst" } = input;
+  const { caseId, crmName, userName = "Analista" } = input;
 
   const caseRecord = await prisma.case.findUnique({ where: { id: caseId } });
   if (!caseRecord) {
-    return { success: false, error: "Case not found" };
+    return { success: false, error: "Caso no encontrado" };
   }
 
   let payloadJson: Prisma.InputJsonValue;
@@ -43,7 +43,7 @@ export async function ingestCrmRecord(
     try {
       payloadJson = JSON.parse(input.payload) as Prisma.InputJsonValue;
     } catch {
-      return { success: false, error: "Invalid CRM JSON payload" };
+      return { success: false, error: "El JSON del CRM no es válido" };
     }
   } else {
     payloadJson = input.payload as Prisma.InputJsonValue;

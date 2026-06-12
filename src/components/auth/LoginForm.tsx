@@ -12,18 +12,18 @@ function SubmitButton() {
       disabled={pending}
       className="w-full rounded-lg bg-[var(--navy)] px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60"
     >
-      {pending ? "Signing in..." : "Sign in"}
+      {pending ? "Iniciando sesión..." : "Iniciar sesión"}
     </button>
   );
 }
 
 const ERROR_MESSAGES: Record<string, string> = {
   credentials:
-    "Invalid email or password. Demo users must be seeded in the production database.",
+    "Email o contraseña inválidos. Los usuarios de demo deben existir en la base de datos de producción.",
   config:
-    "Server misconfigured: AUTH_SECRET is missing in Vercel environment variables.",
+    "Servidor mal configurado: falta AUTH_SECRET en las variables de entorno de Vercel.",
   server:
-    "Login failed due to a server error. Open /api/health to diagnose.",
+    "El inicio de sesión falló por un error del servidor. Abre /api/health para diagnosticar.",
 };
 
 export function LoginForm({
@@ -43,7 +43,7 @@ export function LoginForm({
     >
       <div>
         <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-          Email
+          Correo electrónico
         </label>
         <input
           id="email"
@@ -58,7 +58,7 @@ export function LoginForm({
 
       <div>
         <label htmlFor="password" className="block text-sm font-medium text-slate-700">
-          Password
+          Contraseña
         </label>
         <input
           id="password"
@@ -72,7 +72,7 @@ export function LoginForm({
 
       {errorCode && (
         <p className="text-sm text-red-600" role="alert">
-          {ERROR_MESSAGES[errorCode] ?? "Unable to sign in. Please try again."}
+          {ERROR_MESSAGES[errorCode] ?? "No se pudo iniciar sesión. Inténtalo de nuevo."}
         </p>
       )}
 

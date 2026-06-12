@@ -17,7 +17,7 @@ export function hasMinimumRole(
 export async function requireRole(...allowedRoles: UserRole[]) {
   const user = await requireCurrentUser();
   if (!allowedRoles.includes(user.role)) {
-    throw new Error("Insufficient permissions");
+    throw new Error("Permisos insuficientes");
   }
   return user;
 }

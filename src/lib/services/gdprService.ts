@@ -61,7 +61,7 @@ export async function anonymizeCaseData(
 ): Promise<{ success: boolean; error?: string }> {
   const taxCase = await prisma.case.findUnique({ where: { id: caseId } });
   if (!taxCase) {
-    return { success: false, error: "Case not found" };
+    return { success: false, error: "Caso no encontrado" };
   }
 
   await prisma.$transaction(async (tx) => {
@@ -117,7 +117,7 @@ export async function anonymizeCaseData(
     caseId,
     userName: actorName,
     action: "GDPR_ANONYMIZATION",
-    newValue: "Case personal data anonymized",
+    newValue: "Datos personales del caso anonimizados",
   });
 
   return { success: true };

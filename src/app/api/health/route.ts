@@ -44,7 +44,7 @@ export async function GET() {
         timestamp: new Date().toISOString(),
         checks,
         databasePreview: resolved.url ? maskDatabaseUrl(resolved.url) : null,
-        message: error instanceof Error ? error.message : "Health check failed",
+        message: error instanceof Error ? error.message : "La comprobación de estado falló",
         hint: !resolved.url
           ? "Add DATABASE_URL in Vercel → Settings → Environment Variables → Production → Redeploy"
           : "Database URL is set but connection failed. Check password, aws-1 host, and port 6543 on Vercel.",

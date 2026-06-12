@@ -22,7 +22,7 @@ export function DocumentUploadForm({ caseId }: DocumentUploadFormProps) {
     startTransition(async () => {
       const result = await uploadCaseDocumentAction(caseId, formData);
       if (!result.success) {
-        setError(result.error ?? "Upload failed");
+        setError(result.error ?? "La subida falló");
         return;
       }
       formRef.current?.reset();
@@ -34,21 +34,21 @@ export function DocumentUploadForm({ caseId }: DocumentUploadFormProps) {
     <form ref={formRef} onSubmit={handleSubmit} className="flex flex-wrap items-end gap-3">
       <div>
         <label className="block text-xs font-medium text-slate-600 mb-1">
-          Document type
+          Tipo de documento
         </label>
         <select
           name="documentType"
           className="rounded-md border border-slate-300 px-3 py-2 text-sm"
         >
-          <option value="passport">Passport</option>
-          <option value="proof_of_address">Proof of address</option>
-          <option value="power_of_attorney">Power of attorney</option>
-          <option value="incorporation_certificate">Incorporation certificate</option>
-          <option value="supporting_document">Supporting document</option>
+          <option value="passport">Pasaporte</option>
+          <option value="proof_of_address">Prueba de domicilio</option>
+          <option value="power_of_attorney">Poder de representación</option>
+          <option value="incorporation_certificate">Certificado de constitución</option>
+          <option value="supporting_document">Documento de soporte</option>
         </select>
       </div>
       <div>
-        <label className="block text-xs font-medium text-slate-600 mb-1">File</label>
+        <label className="block text-xs font-medium text-slate-600 mb-1">Archivo</label>
         <input
           type="file"
           name="file"
@@ -63,7 +63,7 @@ export function DocumentUploadForm({ caseId }: DocumentUploadFormProps) {
         disabled={isPending}
         className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-900 disabled:opacity-50"
       >
-        {isPending ? "Uploading…" : "Upload"}
+        {isPending ? "Subiendo..." : "Subir"}
       </button>
       {error && <p className="w-full text-sm text-red-600">{error}</p>}
     </form>

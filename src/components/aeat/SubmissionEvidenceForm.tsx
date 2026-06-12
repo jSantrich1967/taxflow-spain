@@ -28,7 +28,7 @@ export function SubmissionEvidenceForm({
     startTransition(async () => {
       const result = await recordSubmissionEvidenceAction(caseId, formData);
       if (!result.success) {
-        setError(result.error ?? "Failed to record evidence");
+        setError(result.error ?? "No se pudo registrar la evidencia");
         return;
       }
       setSuccess(true);
@@ -42,7 +42,7 @@ export function SubmissionEvidenceForm({
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label className="block text-xs font-medium text-slate-600 mb-1">
-            Submission type
+            Tipo de envío
           </label>
           <select
             name="submissionType"
@@ -51,35 +51,35 @@ export function SubmissionEvidenceForm({
           >
             <option value="MODELO_030">Modelo 030</option>
             <option value="MODELO_036">Modelo 036</option>
-            <option value="VAT">VAT</option>
+            <option value="VAT">IVA</option>
             <option value="ROI_VIES">ROI / VIES</option>
           </select>
         </div>
         <div>
           <label className="block text-xs font-medium text-slate-600 mb-1">
-            AEAT receipt / reference number
+            Justificante AEAT / número de referencia
           </label>
           <input
             name="receiptNumber"
             type="text"
             className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-            placeholder="Receipt or justificante number"
+            placeholder="Número de recibo o justificante"
           />
         </div>
         <div>
           <label className="block text-xs font-medium text-slate-600 mb-1">
-            Submitted by
+            Enviado por
           </label>
           <input
             name="submittedBy"
             type="text"
-            defaultValue="Analyst"
+            defaultValue="Analista"
             className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
           />
         </div>
         <div>
           <label className="block text-xs font-medium text-slate-600 mb-1">
-            Receipt file (PDF/image)
+            Archivo de justificante (PDF/imagen)
           </label>
           <input
             name="receiptFile"
@@ -91,13 +91,13 @@ export function SubmissionEvidenceForm({
       </div>
       <div>
         <label className="block text-xs font-medium text-slate-600 mb-1">
-          Submission notes
+          Notas del envío
         </label>
         <textarea
           name="notes"
           rows={3}
           className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-          placeholder="Date submitted, AEAT channel used, any observations…"
+          placeholder="Fecha de envío, canal AEAT utilizado, observaciones..."
         />
       </div>
       <button
@@ -105,13 +105,13 @@ export function SubmissionEvidenceForm({
         disabled={isPending}
         className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
       >
-        {isPending ? "Saving…" : "Record Submission Evidence"}
+        {isPending ? "Guardando..." : "Registrar evidencia de envío"}
       </button>
       {error && <p className="text-sm text-red-600">{error}</p>}
       {success && (
         <p className="text-sm text-green-600">
-          Submission evidence recorded. This confirms manual AEAT submission was completed
-          outside TaxFlow Spain.
+          Evidencia de envío registrada. Esto confirma que el envío manual a AEAT se completó
+          fuera de TaxFlow Spain.
         </p>
       )}
     </form>

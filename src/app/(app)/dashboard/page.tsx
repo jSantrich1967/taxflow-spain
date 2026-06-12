@@ -7,32 +7,32 @@ export default async function DashboardPage() {
   const stats = await getDashboardStats();
 
   const cards = [
-    { label: "Total Cases", value: stats.totalCases, href: "/cases" },
-    { label: "Pending Review", value: stats.pendingReview, href: "/cases?filter=review" },
-    { label: "Modelo 030 Required", value: stats.requiresModelo030, href: "/cases" },
-    { label: "Modelo 036 Required", value: stats.requiresModelo036, href: "/cases" },
-    { label: "VAT Review", value: stats.vatReview, href: "/cases" },
+    { label: "Casos totales", value: stats.totalCases, href: "/cases" },
+    { label: "Pendientes de revisión", value: stats.pendingReview, href: "/cases?filter=review" },
+    { label: "Modelo 030 requerido", value: stats.requiresModelo030, href: "/cases" },
+    { label: "Modelo 036 requerido", value: stats.requiresModelo036, href: "/cases" },
+    { label: "Revisión de IVA", value: stats.vatReview, href: "/cases" },
     { label: "ROI / VIES", value: stats.roiReview, href: "/cases" },
-    { label: "Completed", value: stats.completed, href: "/cases" },
+    { label: "Completados", value: stats.completed, href: "/cases" },
     {
-      label: "Avg AI Confidence",
+      label: "Confianza media de IA",
       value: `${Math.round(stats.avgConfidence * 100)}%`,
       href: "/cases",
     },
-    { label: "Fields Corrected", value: stats.correctedFields, href: "/cases" },
+    { label: "Campos corregidos", value: stats.correctedFields, href: "/cases" },
   ];
 
   return (
     <div>
       <PageHeader
-        title="Dashboard"
-        description="TaxFlow Spain — workflow overview and analyst queue"
+        title="Panel"
+        description="TaxFlow Spain: resumen del flujo de trabajo y cola de analistas"
         actions={
           <Link
             href="/cases/new"
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
-            + New Case
+            + Nuevo caso
           </Link>
         }
       />
@@ -51,12 +51,12 @@ export default async function DashboardPage() {
       </div>
 
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900 mb-4">Cases by Status</h2>
+        <h2 className="text-lg font-semibold text-slate-900 mb-4">Casos por estado</h2>
         {stats.byStatus.length === 0 ? (
           <p className="text-sm text-slate-500">
-            No cases yet.{" "}
+            Todavía no hay casos.{" "}
             <Link href="/cases/new" className="text-blue-600 hover:underline">
-              Create your first case
+              Crea tu primer caso
             </Link>
           </p>
         ) : (
@@ -75,8 +75,8 @@ export default async function DashboardPage() {
       </div>
 
       <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-        <strong>Compliance reminder:</strong> AI prepares drafts only. All official AEAT
-        submissions require human review and approval.
+        <strong>Recordatorio de cumplimiento:</strong> la IA solo prepara borradores.
+        Todos los envíos oficiales a la AEAT requieren revisión y aprobación humana.
       </div>
     </div>
   );

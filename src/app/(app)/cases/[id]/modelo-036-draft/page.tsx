@@ -41,21 +41,21 @@ export default async function Modelo036DraftPage({ params }: Modelo036DraftPageP
   return (
     <div>
       <PageHeader
-        title={`Modelo 036 Draft — ${caseRecord.caseNumber}`}
-        description="Internal draft for company tax registration — not an official AEAT submission"
+        title={`Borrador Modelo 036 — ${caseRecord.caseNumber}`}
+        description="Borrador interno para registro fiscal de empresa, no es un envío oficial a AEAT"
         actions={
           <div className="flex gap-2">
             <Link
               href={`/cases/${id}/review`}
               className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
-              AI Review
+              Revisión IA
             </Link>
             <Link
               href={`/cases/${id}`}
               className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
-              ← Case
+              ← Caso
             </Link>
           </div>
         }
@@ -65,12 +65,12 @@ export default async function Modelo036DraftPage({ params }: Modelo036DraftPageP
         <CaseStatusBadge status={caseRecord.status} />
         {isLocked && (
           <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
-            Modelo 036 Locked
+            Modelo 036 bloqueado
           </span>
         )}
         {caseRecord.vatReviewRequired && (
           <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
-            VAT Review
+            Revisión de IVA
           </span>
         )}
         {caseRecord.roiReviewRequired && (
@@ -86,7 +86,7 @@ export default async function Modelo036DraftPage({ params }: Modelo036DraftPageP
                 : "bg-blue-100 text-blue-700"
             }`}
           >
-            {record.status.replace(/_/g, " ")}
+            {isApproved ? "Aprobado" : "Borrador pendiente"}
           </span>
         )}
       </div>
@@ -98,15 +98,15 @@ export default async function Modelo036DraftPage({ params }: Modelo036DraftPageP
       )}
 
       <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-        <strong>Internal draft only.</strong> This document is prepared for analyst review.
-        It is not legally final and must not be submitted to AEAT without explicit human approval.
+        <strong>Solo borrador interno.</strong> Este documento se prepara para revisión del analista.
+        No es legalmente final y no debe enviarse a AEAT sin aprobación humana explícita.
       </div>
 
       {!draft && (
         <div className="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center">
-          <p className="text-slate-600 mb-2">No Modelo 036 draft generated yet.</p>
+          <p className="text-slate-600 mb-2">Todavía no se ha generado el borrador Modelo 036.</p>
           <p className="text-sm text-slate-500 mb-6">
-            Run AI extraction and review fields first, then generate the draft.
+            Ejecuta primero la extracción con IA y revisa los campos; después genera el borrador.
           </p>
           <GenerateDraftButton
             caseId={id}
@@ -115,9 +115,9 @@ export default async function Modelo036DraftPage({ params }: Modelo036DraftPageP
             disabled={isLocked || !caseRecord.requiresModelo036}
             disabledReason={
               isLocked
-                ? "Unlock by marking NIF M as received"
+                ? "Desbloquea marcando el NIF M como recibido"
                 : !caseRecord.requiresModelo036
-                  ? "Case classification does not require Modelo 036"
+                  ? "La clasificación del caso no requiere Modelo 036"
                   : undefined
             }
           />
@@ -144,7 +144,7 @@ export default async function Modelo036DraftPage({ params }: Modelo036DraftPageP
 
           {draft.sourceReferences.length > 0 && (
             <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <h3 className="text-sm font-semibold text-slate-900 mb-3">Source References</h3>
+              <h3 className="text-sm font-semibold text-slate-900 mb-3">Referencias de origen</h3>
               <ul className="space-y-2 text-sm text-slate-600">
                 {draft.sourceReferences.map((ref, i) => (
                   <li key={i} className="border-b border-slate-100 pb-2 last:border-0">
@@ -189,16 +189,16 @@ export default async function Modelo036DraftPage({ params }: Modelo036DraftPageP
           />
 
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="text-sm font-semibold text-slate-900 mb-2">Review Pack</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-2">Paquete de revisión</h3>
             <p className="text-sm text-slate-600 mb-4">
-              Generate a printable internal review pack with company data, VAT/ROI flags,
-              checklist, documents, and signature lines.
+              Genera un paquete interno imprimible con datos de empresa, marcas IVA/ROI,
+              checklist, documentos y líneas de firma.
             </p>
             <Link
               href={`/cases/${id}/review-pack/modelo-036`}
               className="inline-flex rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-900"
             >
-              Open Modelo 036 Review Pack →
+              Abrir paquete de revisión Modelo 036 →
             </Link>
           </div>
         </div>

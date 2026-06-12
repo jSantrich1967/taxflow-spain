@@ -6,16 +6,16 @@ import {
 } from "@/lib/types/reviewPack";
 
 export function ChecklistTable({ items }: { items: ReviewPackChecklistRow[] }) {
-  if (items.length === 0) return <p className="text-sm text-slate-500">No checklist items.</p>;
+  if (items.length === 0) return <p className="text-sm text-slate-500">No hay elementos de checklist.</p>;
 
   return (
     <table className="w-full text-sm border-collapse">
       <thead>
         <tr className="bg-slate-100">
-          <th className="border border-slate-300 px-3 py-2 text-left">Document</th>
-          <th className="border border-slate-300 px-3 py-2 text-left">Category</th>
-          <th className="border border-slate-300 px-3 py-2 text-left">Required</th>
-          <th className="border border-slate-300 px-3 py-2 text-left">Status</th>
+          <th className="border border-slate-300 px-3 py-2 text-left">Documento</th>
+          <th className="border border-slate-300 px-3 py-2 text-left">Categoría</th>
+          <th className="border border-slate-300 px-3 py-2 text-left">Requerido</th>
+          <th className="border border-slate-300 px-3 py-2 text-left">Estado</th>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +24,7 @@ export function ChecklistTable({ items }: { items: ReviewPackChecklistRow[] }) {
             <td className="border border-slate-300 px-3 py-2">{item.documentName}</td>
             <td className="border border-slate-300 px-3 py-2">{item.category}</td>
             <td className="border border-slate-300 px-3 py-2">
-              {item.required ? "Yes" : "No"}
+              {item.required ? "Sí" : "No"}
             </td>
             <td className="border border-slate-300 px-3 py-2">{item.status}</td>
           </tr>
@@ -36,17 +36,17 @@ export function ChecklistTable({ items }: { items: ReviewPackChecklistRow[] }) {
 
 export function DocumentsTable({ documents }: { documents: ReviewPackDocumentRow[] }) {
   if (documents.length === 0) {
-    return <p className="text-sm text-slate-500">No documents uploaded.</p>;
+    return <p className="text-sm text-slate-500">No hay documentos subidos.</p>;
   }
 
   return (
     <table className="w-full text-sm border-collapse">
       <thead>
         <tr className="bg-slate-100">
-          <th className="border border-slate-300 px-3 py-2 text-left">File</th>
-          <th className="border border-slate-300 px-3 py-2 text-left">Type</th>
-          <th className="border border-slate-300 px-3 py-2 text-left">Status</th>
-          <th className="border border-slate-300 px-3 py-2 text-left">Uploaded</th>
+          <th className="border border-slate-300 px-3 py-2 text-left">Archivo</th>
+          <th className="border border-slate-300 px-3 py-2 text-left">Tipo</th>
+          <th className="border border-slate-300 px-3 py-2 text-left">Estado</th>
+          <th className="border border-slate-300 px-3 py-2 text-left">Subido</th>
         </tr>
       </thead>
       <tbody>
@@ -67,7 +67,7 @@ export function DocumentsTable({ documents }: { documents: ReviewPackDocumentRow
 
 export function NotesList({ notes }: { notes: ReviewPackNote[] }) {
   if (notes.length === 0) {
-    return <p className="text-sm text-slate-500">No analyst notes.</p>;
+    return <p className="text-sm text-slate-500">No hay notas del analista.</p>;
   }
 
   return (
@@ -76,7 +76,7 @@ export function NotesList({ notes }: { notes: ReviewPackNote[] }) {
         <li key={i} className="border border-slate-200 rounded p-3 text-sm">
           <p className="text-slate-800">{note.content}</p>
           <p className="text-xs text-slate-400 mt-1">
-            {note.author ?? "Analyst"} · {new Date(note.createdAt).toLocaleString()}
+            {note.author ?? "Analista"} · {new Date(note.createdAt).toLocaleString()}
           </p>
         </li>
       ))}
@@ -99,27 +99,27 @@ export function ApprovalSection({
       {approval ? (
         <div className="text-sm space-y-1">
           <p>
-            <span className="text-slate-500">Status:</span>{" "}
+            <span className="text-slate-500">Estado:</span>{" "}
             <strong>{approval.status}</strong>
           </p>
           <p>
-            <span className="text-slate-500">Approved by:</span>{" "}
+            <span className="text-slate-500">Aprobado por:</span>{" "}
             {approval.approvedBy ?? "—"}
           </p>
           {approval.approvedAt && (
             <p>
-              <span className="text-slate-500">Date:</span>{" "}
+              <span className="text-slate-500">Fecha:</span>{" "}
               {new Date(approval.approvedAt).toLocaleString()}
             </p>
           )}
           {approval.notes && (
             <p>
-              <span className="text-slate-500">Notes:</span> {approval.notes}
+              <span className="text-slate-500">Notas:</span> {approval.notes}
             </p>
           )}
         </div>
       ) : (
-        <p className="text-sm text-slate-500 italic">Pending approval</p>
+        <p className="text-sm text-slate-500 italic">Pendiente de aprobación</p>
       )}
     </section>
   );
@@ -129,23 +129,23 @@ export function SignatureBlock() {
   return (
     <section className="review-pack-section mt-10 break-inside-avoid">
       <h2 className="text-base font-bold text-slate-900 border-b border-slate-300 pb-1 mb-6">
-        Signatures
+        Firmas
       </h2>
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
         <div>
-          <p className="text-sm font-semibold text-slate-700 mb-8">Analyst Review</p>
+          <p className="text-sm font-semibold text-slate-700 mb-8">Revisión del analista</p>
           <div className="border-b border-slate-400 mb-2 h-8" />
-          <p className="text-xs text-slate-500">Name / Signature / Date</p>
+          <p className="text-xs text-slate-500">Nombre / Firma / Fecha</p>
         </div>
         <div>
-          <p className="text-sm font-semibold text-slate-700 mb-8">Supervisor Approval</p>
+          <p className="text-sm font-semibold text-slate-700 mb-8">Aprobación del supervisor</p>
           <div className="border-b border-slate-400 mb-2 h-8" />
-          <p className="text-xs text-slate-500">Name / Signature / Date</p>
+          <p className="text-xs text-slate-500">Nombre / Firma / Fecha</p>
         </div>
       </div>
       <p className="mt-6 text-xs text-slate-400">
-        By signing, the reviewer confirms data accuracy to the best of their knowledge.
-        This does not constitute official AEAT submission.
+        Al firmar, el revisor confirma la exactitud de los datos según su mejor conocimiento.
+        Esto no constituye un envío oficial a la AEAT.
       </p>
     </section>
   );

@@ -18,14 +18,14 @@ export async function recordSubmissionEvidenceAction(
   formData: FormData,
 ) {
   const caseRecord = await getCaseById(caseId);
-  if (!caseRecord) return { success: false, error: "Case not found" };
+  if (!caseRecord) return { success: false, error: "Caso no encontrado" };
 
   const submissionType = String(
     formData.get("submissionType") ?? "MODELO_030",
   ) as SubmissionType;
   const receiptNumber = String(formData.get("receiptNumber") ?? "").trim();
   const notes = String(formData.get("notes") ?? "").trim();
-  const submittedBy = String(formData.get("submittedBy") ?? "Analyst").trim();
+  const submittedBy = String(formData.get("submittedBy") ?? "Analista").trim();
   const receiptFile = formData.get("receiptFile") as File | null;
 
   const result = await recordSubmissionEvidence({

@@ -51,27 +51,27 @@ export function mapToModelo036Draft(
   const fields: Record<string, DraftField> = {
     "presentation.cause": draftField(
       "presentation.cause",
-      "Presentation Cause",
+      "Causa de presentación",
       "Alta en el censo de empresarios, profesionales y retenedores",
     ),
     "entity.legal_name": draftField(
       "entity.legal_name",
-      "Legal Company Name",
+      "Nombre legal de la empresa",
       fieldMap["company.legal_name"] ?? company.legal_name,
     ),
     "entity.foreign_tax_id": draftField(
       "entity.foreign_tax_id",
-      "Foreign Tax ID / VAT ID",
+      "ID fiscal extranjero / ID IVA",
       company.foreign_tax_id || company.vat_number || null,
     ),
     "entity.country_code": draftField(
       "entity.country_code",
-      "Country Code",
+      "Código de país",
       company.country_code || null,
     ),
     "entity.registration_number": draftField(
       "entity.registration_number",
-      "Registration Number",
+      "Número de registro",
       fieldMap["company.registration_number"] ?? company.registration_number,
     ),
     "entity.email": draftField(
@@ -81,75 +81,75 @@ export function mapToModelo036Draft(
     ),
     "entity.phone": draftField(
       "entity.phone",
-      "Phone",
+      "Teléfono",
       extraction.client.contact_phone || null,
     ),
     "entity.website": draftField(
       "entity.website",
-      "Website",
+      "Sitio web",
       company.website || null,
     ),
     "foreign_address.address": draftField(
       "foreign_address.address",
-      "Registered Address",
+      "Dirección registrada",
       company.registered_address || null,
     ),
     "foreign_address.city": draftField(
       "foreign_address.city",
-      "City",
+      "Ciudad",
       company.city || null,
     ),
     "foreign_address.postal_code": draftField(
       "foreign_address.postal_code",
-      "Postal Code",
+      "Código postal",
       company.postal_code || null,
     ),
     "foreign_address.country": draftField(
       "foreign_address.country",
-      "Country",
+      "País",
       company.country_of_incorporation || null,
     ),
     "representative.nif": draftField(
       "representative.nif",
-      "Representative NIF",
+      "NIF del representante",
       fieldMap["representative.nif"] ?? representative.nif,
     ),
     "representative.name": draftField(
       "representative.name",
-      "Representative Name",
+      "Nombre del representante",
       fieldMap["representative.full_name_or_company_name"] ??
         representative.full_name_or_company_name,
     ),
     "representative.resident_in_spain": draftField(
       "representative.resident_in_spain",
-      "Resident in Spain",
+      "Residente en España",
       representative.resident_in_spain,
     ),
     "economic_activity.description": draftField(
       "economic_activity.description",
-      "Activity Description",
+      "Descripción de actividad",
       company.business_activity || null,
     ),
     "vat.established_in_spain": draftField(
       "vat.established_in_spain",
-      "Established in Spanish VAT Territory",
+      "Establecido en territorio IVA español",
       company.stores_inventory_in_spain || company.sells_in_spain,
     ),
     "vat.review_required": draftField(
       "vat.review_required",
-      "VAT Review Required",
+      "Revisión de IVA requerida",
       company.sells_in_spain ||
         company.uses_amazon_fba ||
         company.stores_inventory_in_spain,
     ),
     "roi.request_registration": draftField(
       "roi.request_registration",
-      "Request ROI / VIES Registration",
+      "Solicitar registro ROI / VIES",
       company.needs_roi_vies === "yes" || company.performs_intracommunity_b2b,
     ),
     "director.nif_m_status": draftField(
       "director.nif_m_status",
-      "Director NIF M Status",
+      "Estado NIF M del director",
       director.nif_m_received ? "received" : "pending",
     ),
   };
@@ -160,13 +160,13 @@ export function mapToModelo036Draft(
   );
 
   const warnings: string[] = [
-    "INTERNAL DRAFT ONLY — Not legally final. Requires human review before any AEAT submission.",
+    "SOLO BORRADOR INTERNO: no es legalmente final. Requiere revisión humana antes de cualquier envío a AEAT.",
     ...extraction.warnings,
   ];
 
   if (options?.modelo036Locked) {
     warnings.push(
-      "Modelo 036 is LOCKED until NIF M is received for the foreign director.",
+      "El Modelo 036 está BLOQUEADO hasta recibir el NIF M del director extranjero.",
     );
   }
 

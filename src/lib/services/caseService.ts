@@ -28,14 +28,14 @@ export async function createCase(input: CreateCaseInput) {
       contactPhone: input.contactPhone ?? null,
       companyName: input.companyName ?? null,
       companyCountry: input.companyCountry ?? null,
-      assignedAnalyst: input.assignedAnalyst ?? "Analyst",
+      assignedAnalyst: input.assignedAnalyst ?? "Analista",
       status: CaseStatus.INTAKE_RECEIVED,
     },
   });
 
   await logAuditEvent({
     caseId: newCase.id,
-    userName: input.assignedAnalyst ?? "Analyst",
+    userName: input.assignedAnalyst ?? "Analista",
     action: "CASE_CREATED",
     newValue: caseNumber,
     metadata: { contactEmail: input.contactEmail },
@@ -57,7 +57,7 @@ export async function createCase(input: CreateCaseInput) {
     await logAuditEvent({
       caseId: newCase.id,
       action: "EMAIL_INGESTED",
-      newValue: input.emailSubject ?? "Manual email paste",
+      newValue: input.emailSubject ?? "Pegado manual de email",
     });
   }
 
@@ -90,7 +90,7 @@ export async function createCase(input: CreateCaseInput) {
       data: {
         caseId: newCase.id,
         note: input.manualNotes,
-        createdByName: input.assignedAnalyst ?? "Analyst",
+        createdByName: input.assignedAnalyst ?? "Analista",
       },
     });
   }
@@ -163,7 +163,7 @@ export async function updateCaseStatus(
     select: { status: true },
   });
 
-  if (!existing) throw new Error("Case not found");
+  if (!existing) throw new Error("Caso no encontrado");
 
   const updated = await prisma.case.update({
     where: { id: caseId },

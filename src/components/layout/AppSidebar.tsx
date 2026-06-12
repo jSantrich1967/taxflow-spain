@@ -4,12 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
-  { href: "/dashboard", label: "Dashboard", icon: "📊" },
-  { href: "/cases", label: "Cases", icon: "📁" },
-  { href: "/cases/new", label: "New Case", icon: "➕" },
-  { href: "/cases?filter=review", label: "Review Queue", icon: "🔍" },
-  { href: "/integrations", label: "Integrations", icon: "🔗" },
-  { href: "/settings", label: "Settings", icon: "⚙️" },
+  { href: "/dashboard", label: "Panel", icon: "📊" },
+  { href: "/cases", label: "Casos", icon: "📁" },
+  { href: "/cases/new", label: "Nuevo caso", icon: "➕" },
+  { href: "/cases?filter=review", label: "Cola de revisión", icon: "🔍" },
+  { href: "/integrations", label: "Integraciones", icon: "🔗" },
+  { href: "/settings", label: "Configuración", icon: "⚙️" },
 ];
 
 export function AppSidebar() {
@@ -26,7 +26,7 @@ export function AppSidebar() {
       <div className="border-b border-white/10 px-6 py-5">
         <h1 className="text-lg font-bold tracking-tight">TaxFlow Spain</h1>
         <p className="mt-1 text-xs text-white/60 leading-snug">
-          AI-assisted Spanish tax workflows
+          Flujos fiscales españoles asistidos por IA
         </p>
       </div>
 
@@ -48,8 +48,8 @@ export function AppSidebar() {
       </nav>
 
       <div className="border-t border-white/10 px-6 py-4">
-        <p className="text-xs text-white/40">Production Phase 6</p>
-        <p className="text-xs text-white/60 mt-1">Human review required</p>
+        <p className="text-xs text-white/40">Fase 6 de producción</p>
+        <p className="text-xs text-white/60 mt-1">Revisión humana obligatoria</p>
       </div>
     </aside>
   );

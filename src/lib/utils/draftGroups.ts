@@ -1,18 +1,18 @@
 import { DraftField } from "@/lib/types";
 
 const SECTION_LABELS: Record<string, string> = {
-  presentation: "Presentation Cause",
-  interested_person: "Interested Person",
-  foreign_address: "Foreign Address",
-  spanish_address: "Spanish Fiscal Address",
-  contact: "Contact",
-  representative: "Representative",
-  entity: "Legal Entity",
-  economic_activity: "Economic Activity",
-  vat: "VAT",
+  presentation: "Causa de presentación",
+  interested_person: "Persona interesada",
+  foreign_address: "Dirección extranjera",
+  spanish_address: "Dirección fiscal española",
+  contact: "Contacto",
+  representative: "Representante",
+  entity: "Entidad legal",
+  economic_activity: "Actividad económica",
+  vat: "IVA",
   roi: "ROI / VIES",
-  director: "Director Status",
-  signature: "Signature Metadata",
+  director: "Estado del director",
+  signature: "Datos de firma",
 };
 
 export function groupDraftFields(

@@ -25,15 +25,15 @@ export interface EmailIngestionResult {
 export async function ingestEmail(
   input: EmailIngestionInput,
 ): Promise<EmailIngestionResult> {
-  const { caseId, bodyText, userName = "Analyst" } = input;
+  const { caseId, bodyText, userName = "Analista" } = input;
 
   if (!bodyText.trim()) {
-    return { success: false, error: "Email body is required" };
+    return { success: false, error: "El cuerpo del email es obligatorio" };
   }
 
   const caseRecord = await prisma.case.findUnique({ where: { id: caseId } });
   if (!caseRecord) {
-    return { success: false, error: "Case not found" };
+    return { success: false, error: "Caso no encontrado" };
   }
 
   const log = await prisma.emailIngestionLog.create({
@@ -62,7 +62,7 @@ export async function ingestEmail(
     caseId,
     userName,
     action: "EMAIL_INGESTED",
-    newValue: input.subject ?? "Email pasted",
+    newValue: input.subject ?? "Email pegado",
     metadata: { logId: log.id, fromEmail: input.fromEmail },
   });
 
@@ -82,7 +82,7 @@ export async function getEmailIngestionLogs(caseId: string) {
 export async function ingestFromGmail(_caseId: string, _messageId: string) {
   return {
     success: false,
-    error: "Gmail API integration not configured. Use manual email paste for MVP.",
+    error: "La integración de Gmail API no está configurada. Usa el pegado manual de email.",
   };
 }
 
@@ -92,6 +92,6 @@ export async function ingestFromGmail(_caseId: string, _messageId: string) {
 export async function ingestFromOutlook(_caseId: string, _messageId: string) {
   return {
     success: false,
-    error: "Microsoft Graph integration not configured. Use manual email paste for MVP.",
+    error: "La integración de Microsoft Graph no está configurada. Usa el pegado manual de email.",
   };
 }

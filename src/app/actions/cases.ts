@@ -74,12 +74,12 @@ export async function runExtractionAction(caseId: string) {
 export async function uploadCaseDocumentAction(caseId: string, formData: FormData) {
   const caseRecord = await getCaseById(caseId);
   if (!caseRecord) {
-    return { success: false, error: "Case not found" };
+    return { success: false, error: "Caso no encontrado" };
   }
 
   const file = formData.get("file") as File | null;
   if (!file || file.size === 0) {
-    return { success: false, error: "No file provided" };
+    return { success: false, error: "No se proporcionó ningún archivo" };
   }
 
   const documentType = String(formData.get("documentType") ?? "").trim() || undefined;

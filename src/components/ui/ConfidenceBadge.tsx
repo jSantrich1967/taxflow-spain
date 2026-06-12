@@ -6,7 +6,7 @@ export function ConfidenceBadge({ score }: { score: number }) {
 
   return (
     <span className={`inline-flex rounded px-2 py-0.5 text-xs font-medium ${color}`}>
-      {pct}% confidence
+      {pct}% confianza
     </span>
   );
 }

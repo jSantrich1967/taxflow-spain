@@ -8,14 +8,14 @@ export async function updateFieldAction(
   fieldId: string,
   caseId: string,
   correctedValue: string,
-  userName = "Analyst",
+  userName = "Analista",
 ) {
   const field = await prisma.extractedField.findUnique({
     where: { id: fieldId },
   });
 
   if (!field || field.caseId !== caseId) {
-    return { success: false, error: "Field not found" };
+    return { success: false, error: "Campo no encontrado" };
   }
 
   await prisma.extractedField.update({
@@ -46,14 +46,14 @@ export async function updateFieldAction(
 export async function approveFieldAction(
   fieldId: string,
   caseId: string,
-  userName = "Analyst",
+  userName = "Analista",
 ) {
   const field = await prisma.extractedField.findUnique({
     where: { id: fieldId },
   });
 
   if (!field || field.caseId !== caseId) {
-    return { success: false, error: "Field not found" };
+    return { success: false, error: "Campo no encontrado" };
   }
 
   await prisma.extractedField.update({
@@ -85,14 +85,14 @@ export async function approveFieldAction(
 export async function rejectFieldAction(
   fieldId: string,
   caseId: string,
-  userName = "Analyst",
+  userName = "Analista",
 ) {
   const field = await prisma.extractedField.findUnique({
     where: { id: fieldId },
   });
 
   if (!field || field.caseId !== caseId) {
-    return { success: false, error: "Field not found" };
+    return { success: false, error: "Campo no encontrado" };
   }
 
   await prisma.extractedField.update({

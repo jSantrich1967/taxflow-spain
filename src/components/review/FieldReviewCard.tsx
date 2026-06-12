@@ -37,7 +37,7 @@ export function FieldReviewCard({ field, caseId }: FieldReviewCardProps) {
   function handleSave() {
     startTransition(async () => {
       const result = await updateFieldAction(field.id, caseId, editValue);
-      setMessage(result.success ? "Saved" : result.error ?? "Error");
+      setMessage(result.success ? "Guardado" : result.error ?? "Error");
       setTimeout(() => setMessage(null), 2000);
     });
   }
@@ -75,27 +75,27 @@ export function FieldReviewCard({ field, caseId }: FieldReviewCardProps) {
           <ConfidenceBadge score={field.confidenceScore} />
           {field.requiresHumanReview && !field.analystApproved && (
             <span className="rounded bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
-              Review required
+              Revisión requerida
             </span>
           )}
           {field.analystApproved && (
             <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-              Approved
+              Aprobado
             </span>
           )}
         </div>
       </div>
 
       <div className="mb-3">
-        <label className="block text-xs text-slate-500 mb-1">AI extracted value</label>
+        <label className="block text-xs text-slate-500 mb-1">Valor extraído por IA</label>
         <p className="text-sm text-slate-600 bg-slate-50 rounded px-3 py-2">
-          {field.value || <em className="text-slate-400">Empty</em>}
+          {field.value || <em className="text-slate-400">Vacío</em>}
         </p>
       </div>
 
       <div className="mb-3">
         <label className="block text-xs font-medium text-slate-700 mb-1">
-          Analyst value (editable)
+          Valor del analista (editable)
         </label>
         <input
           type="text"
@@ -109,7 +109,7 @@ export function FieldReviewCard({ field, caseId }: FieldReviewCardProps) {
       {(field.sourceFileName || field.sourceExcerpt) && (
         <div className="mb-3 rounded bg-slate-50 px-3 py-2 text-xs text-slate-500">
           <p>
-            <span className="font-medium">Source:</span> {field.sourceType}
+            <span className="font-medium">Fuente:</span> {field.sourceType}
             {field.sourceFileName && ` — ${field.sourceFileName}`}
           </p>
           {field.sourceExcerpt && (
@@ -125,7 +125,7 @@ export function FieldReviewCard({ field, caseId }: FieldReviewCardProps) {
           disabled={isPending}
           className="rounded-md bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-200 disabled:opacity-50"
         >
-          Save correction
+          Guardar corrección
         </button>
         <button
           type="button"
@@ -133,7 +133,7 @@ export function FieldReviewCard({ field, caseId }: FieldReviewCardProps) {
           disabled={isPending || field.analystApproved}
           className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700 disabled:opacity-50"
         >
-          Approve field
+          Aprobar campo
         </button>
         <button
           type="button"
@@ -141,7 +141,7 @@ export function FieldReviewCard({ field, caseId }: FieldReviewCardProps) {
           disabled={isPending}
           className="rounded-md border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
         >
-          Reject
+          Rechazar
         </button>
         {message && (
           <span className="text-xs text-green-600 self-center">{message}</span>
@@ -149,7 +149,7 @@ export function FieldReviewCard({ field, caseId }: FieldReviewCardProps) {
       </div>
 
       {field.approvedBy && (
-        <p className="mt-2 text-xs text-slate-400">Approved by {field.approvedBy}</p>
+        <p className="mt-2 text-xs text-slate-400">Aprobado por {field.approvedBy}</p>
       )}
     </div>
   );

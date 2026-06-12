@@ -26,33 +26,33 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
     <div>
       <PageHeader
         title={caseRecord.caseNumber}
-        description={caseRecord.contactName ?? caseRecord.companyName ?? "Tax workflow case"}
+        description={caseRecord.contactName ?? caseRecord.companyName ?? "Caso de flujo fiscal"}
         actions={
           <div className="flex flex-wrap gap-2">
             <Link
               href={`/cases/${id}/intake`}
               className="rounded-lg border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100"
             >
-              AI Intake
+              Entrada IA
             </Link>
             <Link
               href={`/cases/${id}/aeat-preparation`}
               className="rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-100"
             >
-              AEAT Prep
+              Preparación AEAT
             </Link>
             <Link
               href={`/cases/${id}/review`}
               className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-100"
             >
-              AI Review →
+              Revisión IA →
             </Link>
             {caseRecord.requiresModelo030 && (
               <Link
                 href={`/cases/${id}/modelo-030-draft`}
                 className="rounded-lg border border-purple-200 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-700 hover:bg-purple-100"
               >
-                Modelo 030 Draft
+                Borrador Modelo 030
               </Link>
             )}
             {caseRecord.requiresModelo036 && (
@@ -64,7 +64,7 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
                     : "border-teal-200 bg-teal-50 text-teal-700 hover:bg-teal-100"
                 }`}
               >
-                Modelo 036 Draft{caseRecord.modelo036Locked ? " (Locked)" : ""}
+                Borrador Modelo 036{caseRecord.modelo036Locked ? " (bloqueado)" : ""}
               </Link>
             )}
           </div>
@@ -74,32 +74,32 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-slate-900 mb-4">Case Overview</h2>
+            <h2 className="text-sm font-semibold text-slate-900 mb-4">Resumen del caso</h2>
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <dt className="text-slate-500">Status</dt>
+                <dt className="text-slate-500">Estado</dt>
                 <dd className="mt-1">
                   <CaseStatusBadge status={caseRecord.status} />
                 </dd>
               </div>
               <div>
-                <dt className="text-slate-500">Assigned Analyst</dt>
+                <dt className="text-slate-500">Analista asignado</dt>
                 <dd className="mt-1 font-medium">{caseRecord.assignedAnalyst ?? "—"}</dd>
               </div>
               <div>
-                <dt className="text-slate-500">Contact Email</dt>
+                <dt className="text-slate-500">Email del contacto</dt>
                 <dd className="mt-1">{caseRecord.contactEmail ?? "—"}</dd>
               </div>
               <div>
-                <dt className="text-slate-500">Contact Phone</dt>
+                <dt className="text-slate-500">Teléfono del contacto</dt>
                 <dd className="mt-1">{caseRecord.contactPhone ?? "—"}</dd>
               </div>
               <div>
-                <dt className="text-slate-500">Company</dt>
+                <dt className="text-slate-500">Empresa</dt>
                 <dd className="mt-1">{caseRecord.companyName ?? "—"}</dd>
               </div>
               <div>
-                <dt className="text-slate-500">Country</dt>
+                <dt className="text-slate-500">País</dt>
                 <dd className="mt-1">{caseRecord.companyCountry ?? "—"}</dd>
               </div>
             </dl>
@@ -107,17 +107,17 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
             <div className="mt-4 flex flex-wrap gap-2">
               {caseRecord.requiresModelo030 && (
                 <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700">
-                  Modelo 030 Required
+                  Modelo 030 requerido
                 </span>
               )}
               {caseRecord.requiresModelo036 && (
                 <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-700">
-                  Modelo 036 Required
+                  Modelo 036 requerido
                 </span>
               )}
               {caseRecord.vatReviewRequired && (
                 <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
-                  VAT Review
+                  Revisión de IVA
                 </span>
               )}
               {caseRecord.roiReviewRequired && (
@@ -127,32 +127,32 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
               )}
               {caseRecord.modelo036Locked && (
                 <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
-                  Modelo 036 Locked
+                  Modelo 036 bloqueado
                 </span>
               )}
             </div>
           </div>
 
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-slate-900 mb-4">AI Extraction</h2>
+            <h2 className="text-sm font-semibold text-slate-900 mb-4">Extracción con IA</h2>
             <RunExtractionButton caseId={id} />
             {latestAiRun && (
               <div className="mt-4 rounded-lg bg-slate-50 p-4 text-sm">
                 <p>
-                  <span className="text-slate-500">Last run:</span>{" "}
+                  <span className="text-slate-500">Última ejecución:</span>{" "}
                   {new Date(latestAiRun.createdAt).toLocaleString()}
                 </p>
                 <p>
-                  <span className="text-slate-500">Model:</span> {latestAiRun.modelUsed}
+                  <span className="text-slate-500">Modelo:</span> {latestAiRun.modelUsed}
                 </p>
                 {latestAiRun.confidenceScore != null && (
                   <p>
-                    <span className="text-slate-500">Confidence:</span>{" "}
+                    <span className="text-slate-500">Confianza:</span>{" "}
                     {Math.round(latestAiRun.confidenceScore * 100)}%
                   </p>
                 )}
                 <p>
-                  <span className="text-slate-500">Processing:</span>{" "}
+                  <span className="text-slate-500">Procesamiento:</span>{" "}
                   {latestAiRun.processingTimeMs}ms
                 </p>
               </div>
@@ -160,7 +160,7 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
           </div>
 
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-slate-900 mb-4">Documents</h2>
+            <h2 className="text-sm font-semibold text-slate-900 mb-4">Documentos</h2>
             <DocumentUploadForm caseId={id} />
             {caseRecord.documents.length > 0 ? (
               <ul className="mt-4 divide-y divide-slate-100">
@@ -170,7 +170,7 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
                       <p className="font-medium text-slate-800">{doc.originalFileName}</p>
                       <p className="text-xs text-slate-500">
                         {doc.documentType} · {doc.status}
-                        {doc.aiProcessed && " · AI processed"}
+                        {doc.aiProcessed && " · procesado por IA"}
                       </p>
                     </div>
                     <span className="text-xs text-slate-400">
@@ -180,29 +180,29 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
                 ))}
               </ul>
             ) : (
-              <p className="mt-4 text-sm text-slate-500">No documents uploaded yet.</p>
+              <p className="mt-4 text-sm text-slate-500">Todavía no hay documentos subidos.</p>
             )}
           </div>
         </div>
 
         <div className="space-y-6">
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-slate-900 mb-4">Review Progress</h2>
+            <h2 className="text-sm font-semibold text-slate-900 mb-4">Progreso de revisión</h2>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-slate-500">Extracted fields</span>
+                <span className="text-slate-500">Campos extraídos</span>
                 <span className="font-medium">{caseRecord.extractedFields.length}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Approved</span>
+                <span className="text-slate-500">Aprobados</span>
                 <span className="font-medium text-green-600">{approvedFields}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Pending review</span>
+                <span className="text-slate-500">Pendientes de revisión</span>
                 <span className="font-medium text-amber-600">{pendingFields}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Checklist items</span>
+                <span className="text-slate-500">Elementos de checklist</span>
                 <span className="font-medium">{caseRecord.checklistItems.length}</span>
               </div>
             </div>
@@ -228,7 +228,7 @@ export default async function CaseDetailPage({ params }: CaseDetailPageProps) {
           )}
 
           <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-semibold text-slate-900 mb-4">Audit Timeline</h2>
+            <h2 className="text-sm font-semibold text-slate-900 mb-4">Historial de auditoría</h2>
             <ul className="space-y-3 max-h-64 overflow-y-auto">
               {caseRecord.auditLogs.map((log) => (
                 <li key={log.id} className="text-xs">

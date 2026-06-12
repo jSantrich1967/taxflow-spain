@@ -10,7 +10,7 @@ export function MissingFieldsAlert({
   if (missingFields.length === 0) {
     return (
       <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
-        All required fields are present. Ready for human approval review.
+        Todos los campos obligatorios están presentes. Listo para revisión y aprobación humana.
       </div>
     );
   }
@@ -18,7 +18,7 @@ export function MissingFieldsAlert({
   return (
     <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
       <p className="text-sm font-semibold text-amber-900">
-        {missingFields.length} required field(s) missing
+        Faltan {missingFields.length} campo(s) obligatorio(s)
       </p>
       <ul className="mt-2 list-disc list-inside text-sm text-amber-800 space-y-1">
         {missingFields.map((key) => (

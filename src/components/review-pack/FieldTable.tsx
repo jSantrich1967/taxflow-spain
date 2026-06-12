@@ -18,14 +18,14 @@ export function FieldTable({ title, rows, showSource = false }: FieldTableProps)
         <thead>
           <tr className="bg-slate-100">
             <th className="border border-slate-300 px-3 py-2 text-left font-semibold w-1/3">
-              Field
+              Campo
             </th>
             <th className="border border-slate-300 px-3 py-2 text-left font-semibold">
-              Value
+              Valor
             </th>
             {showSource && (
               <th className="border border-slate-300 px-3 py-2 text-left font-semibold w-1/4">
-                Source / Confidence
+                Fuente / Confianza
               </th>
             )}
           </tr>
@@ -44,12 +44,12 @@ export function FieldTable({ title, rows, showSource = false }: FieldTableProps)
                   {row.source && <span>{row.source}</span>}
                   {row.confidence != null && (
                     <span className="block">
-                      {Math.round(row.confidence * 100)}% confidence
+                      {Math.round(row.confidence * 100)}% confianza
                     </span>
                   )}
                   {row.approved != null && (
                     <span className="block">
-                      {row.approved ? "✓ Approved" : "Pending review"}
+                      {row.approved ? "✓ Aprobado" : "Pendiente de revisión"}
                     </span>
                   )}
                 </td>

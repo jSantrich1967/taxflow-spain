@@ -205,7 +205,7 @@ async function upsertEntitiesFromExtraction(
 export async function runIntakeExtraction(
   input: RunIntakeExtractionInput,
 ): Promise<RunIntakeExtractionResult> {
-  const { caseId, userName = "Analyst" } = input;
+  const { caseId, userName = "Analista" } = input;
 
   const caseRecord = await prisma.case.findUnique({
     where: { id: caseId },
@@ -217,7 +217,7 @@ export async function runIntakeExtraction(
   });
 
   if (!caseRecord) {
-    return { success: false, error: "Case not found" };
+    return { success: false, error: "Caso no encontrado" };
   }
 
   await updateCaseStatus(caseId, CaseStatus.AI_EXTRACTION_PENDING, userName);
@@ -278,7 +278,7 @@ export async function runIntakeExtraction(
       caseId,
       userName,
       action: "AI_EXTRACTION_FAILED",
-      newValue: extractionResult.error ?? "Unknown error",
+      newValue: extractionResult.error ?? "Error desconocido",
       metadata: { aiRunId: aiRun.id },
     });
     await updateCaseStatus(caseId, CaseStatus.ANALYST_REVIEW, userName);
