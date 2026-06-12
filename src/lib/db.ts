@@ -27,7 +27,15 @@ function createPrismaClient(): PrismaClient {
       ? (["query", "error", "warn"] as const)
       : (["error"] as const);
 
-  const pool = new Pool({ connectionString });
+  const isSupabase = connectionString.includes("supabase.com");
+  const poolConnectionString = isSupabase
+    ? connectionString.replace(/[?&]sslmode=[^&]+/g, "").replace(/\?$/, "")
+    : connectionString;
+
+  const pool = new Pool({
+    connectionString: poolConnectionString,
+    ssl: isSupabase ? { rejectUnauthorized: false } : undefined,
+  });
   const adapter = new PrismaPg(pool);
   return new PrismaClient({ adapter, log: [...log] });
 }
